@@ -1,0 +1,29 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+
+#define FRAMERATE 1000/60
+
+#define WHITE 255,255,255
+#define BLACK 0,0,0
+#define RED 255,0,0
+
+#define POPULATION 30
+#define MINE_LEN 40
+#define EPOCH_TICK_OVER 2000
+#define HIT_DISTANCE 10 
+
+#define MUTATION_CHANCE 0.1
+#define COMBINE_CHANCE 0.3
+#define MAX_PERTURB 0.3 
+
+#define MAX_SWEEPER_SPEED 100
+
+#define BRAIN_INPUT_LEN 4
+#define BRAIN_OUTPUT_LEN 2
+#define BRAIN_HIDDEN_LEN 6
+#define BRAIN_HIDDEN_LAYER_LEN 1
+
+#endif

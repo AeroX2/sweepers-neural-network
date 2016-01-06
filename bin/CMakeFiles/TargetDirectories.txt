@@ -1,0 +1,1 @@
+/home/james/documents/git/neural-network-c/bin/CMakeFiles/neural_network.dir
