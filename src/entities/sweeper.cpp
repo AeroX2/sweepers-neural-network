@@ -14,18 +14,23 @@ Sweeper::Sweeper(Vector p, Brain brain)
 
 void Sweeper::update(Vector mine_location, double delta)
 {
-	Vector normalised_vector = (p - mine_location);
+	Vector normalised_vector = (p - mine_location).normalise();
 	Matrix matrix = Matrix(1,5);
 	matrix.set(0,0,normalised_vector.x); 
 	matrix.set(0,1,normalised_vector.y);
 	matrix.set(0,2,v.x);
 	matrix.set(0,3,v.y);
-	matrix.set(0,4,-1); //Bias
+	matrix.set(0,4,-1); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
+	if (output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw;
 
 	float ltrack = output.get(0,0);
 	float rtrack = output.get(0,1);
 	float rotation_force = ltrack - rtrack; 
+
+	if (rotation_force > 0.3) rotation_force = 0.3;
+	if (rotation_force < -0.3) rotation_force = -0.3;
+
 	rotation += rotation_force;
 
 	v.x = -sin(rotation);
@@ -55,6 +60,8 @@ void Sweeper::new_position()
 	int rand_x = rand() % SCREEN_WIDTH;
 	int rand_y = rand() % SCREEN_HEIGHT;
 	this->p = Vector(rand_x, rand_y);
+
+	this->rotation = Utils::random_range(0,2*M_PI);
 }
 
 Vector& Sweeper::get()

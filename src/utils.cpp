@@ -17,5 +17,6 @@ float Utils::random_clamped()
 
 float Utils::sigmoid(float num)
 {
-	return num/(1+fabs(num));
+	//return num/(1+fabs(num));
+	return 1/(1+exp(-num));
 }
