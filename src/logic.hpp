@@ -3,7 +3,9 @@
 
 #include "entities/mine.hpp"
 #include "entities/sweeper.hpp"
+#include "entities/control_sweeper.hpp"
 #include "network/brain.hpp"
+#include "network/matrix.hpp"
 
 #include "controller.hpp"
 
@@ -21,6 +23,7 @@ class Logic
 		vector<Sweeper> sweepers;
 		vector<Mine> mines;
 		int ticks;
+		int max_fitness;
 };
 
 #endif

@@ -10,10 +10,13 @@ Sweeper::Sweeper(Vector p, Brain brain)
 
 	rotation = 0.0;
 	speed = 50.0;
+	best = false;
 }
 
-void Sweeper::update(Vector mine_location, double delta)
+void Sweeper::update(Vector mine_location)
 {
+	mine_location.print();
+
 	Vector normalised_vector = (p - mine_location).normalise();
 	Matrix matrix = Matrix(1,5);
 	matrix.set(0,0,normalised_vector.x); 
@@ -52,6 +55,8 @@ void Sweeper::update(Vector mine_location, double delta)
 
 void Sweeper::draw(SDL_Renderer* renderer)
 {
+	if (is_best()) SDL_SetRenderDrawColor(renderer, RED, 255);
+	else SDL_SetRenderDrawColor(renderer, BLACK, 255);
 	SDL_RenderDrawRect(renderer, &rectangle);
 }
 
@@ -82,4 +87,14 @@ Brain& Sweeper::get_brain()
 void Sweeper::set_brain(Brain brain)
 {
 	this->brain = brain;
+}
+
+bool Sweeper::is_best()
+{
+	return best;
+}
+
+void Sweeper::set_best(bool best)
+{
+	this->best = best;
 }

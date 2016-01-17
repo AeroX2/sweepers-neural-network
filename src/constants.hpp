@@ -9,11 +9,12 @@
 #define WHITE 255,255,255
 #define BLACK 0,0,0
 #define RED 255,0,0
+#define PURPLE 255,0,255
 
-#define POPULATION 30
+#define POPULATION 1
 #define MINE_LEN 40
 #define EPOCH_TICK_OVER 2000
-#define HIT_DISTANCE 10 
+#define HIT_DISTANCE 5 
 
 #define MUTATION_CHANCE 0.1
 #define COMBINE_CHANCE 0.3

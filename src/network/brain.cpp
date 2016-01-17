@@ -11,7 +11,7 @@ Brain::Brain()
 	new_matrix.set_by_col(random_array(i*h+h));
 	genes.push_back(new_matrix);
 
-	for (int ii = 0; ii < hl; ii++)
+	for (int ii = 0; ii < hl-1; ii++)
 	{
 		new_matrix = Matrix(h+1,h);
 		new_matrix.set_by_col(random_array(h*h+h));

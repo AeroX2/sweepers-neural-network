@@ -6,8 +6,8 @@ Mine::Mine()
 
 	rectangle.x = p.x;
 	rectangle.y = p.y;
-	rectangle.w = 10;
-	rectangle.h = 10;
+	rectangle.w = 5;
+	rectangle.h = 5;
 }
 
 void Mine::draw(SDL_Renderer* renderer)

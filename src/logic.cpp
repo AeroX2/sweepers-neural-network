@@ -12,36 +12,31 @@ Logic::Logic()
 		Mine new_mine = Mine();
 		mines.push_back(new_mine);
 	}
+
+	Vector p;
+	Brain new_brain;
 	for (int i = 0; i < POPULATION; i++)
 	{
 		rand_x = rand() % SCREEN_WIDTH;
 		rand_y = rand() % SCREEN_HEIGHT;
-		Vector p = Vector(rand_x, rand_y);
-		Brain new_brain = Brain();
+		p = Vector(rand_x, rand_y);
+		new_brain = Brain();
 		Sweeper new_sweeper = Sweeper(p, new_brain);
 		sweepers.push_back(new_sweeper);
 	}
-	ticks = 0;
+	//Control_Sweeper control_sweeper = Control_Sweeper(p, new_brain);
+	//sweepers.push_back(&control_sweeper);
 
-	/*Brain brain1 = Brain();
-	Brain brain2 = Brain();
-	for (Matrix m : brain1.get_genes()) m.print();
-	for (Matrix m : brain2.get_genes()) m.print();
-	Brain temp_brain = brain1;
-	//brain1.combine(brain2, 10);
-	//brain2.combine(temp_brain, 10);
-	brain1.mutate();
-	brain2.mutate();
-	for (Matrix m : brain1.get_genes()) m.print();
-	for (Matrix m : brain2.get_genes()) m.print();*/
+	ticks = 0;
+	max_fitness = 0;
 }
 
 void Logic::update(double delta)
 {
-	for (Sweeper& sweeper : sweepers)
+	for (Sweeper &sweeper : sweepers)
 	{
-		Vector sweeper_p = sweeper.get();
 		Vector mine_p = mines[0].get();
+		Vector sweeper_p = sweeper.get();
 		Vector closest_mine = mines[0].get();
 		float min_distance = (mine_p - sweeper_p).distance();
 
@@ -54,6 +49,7 @@ void Logic::update(double delta)
 				mine_p.y + 50 > sweeper_p.y)
 			{
 				float distance = (mine_p - sweeper_p).distance();
+				//cout << "distance: " << distance << endl;
 				if (distance < HIT_DISTANCE)
 				{
 					mine.new_position();
@@ -66,7 +62,13 @@ void Logic::update(double delta)
 				}
 			}	
 		}
-		sweeper.update(closest_mine, delta);
+		if (sweeper.get_brain().get_fitness() > max_fitness)
+		{
+			max_fitness = sweeper.get_brain().get_fitness();
+			for (Sweeper &sweeper2 : sweepers) sweeper2.set_best(false);
+			sweeper.set_best(true);
+		}
+		sweeper.update(closest_mine);
 
 		sweeper_p = sweeper.get();
 		if (sweeper_p.x > SCREEN_WIDTH) sweeper_p.x = 0;
@@ -79,6 +81,7 @@ void Logic::update(double delta)
 	if (ticks > EPOCH_TICK_OVER)
 	{
 		ticks = 0;
+		max_fitness = 0;
 		vector<Brain> population = vector<Brain>();
 		for (Sweeper sweeper : sweepers) population.push_back(sweeper.get_brain());
 		population = Controller::epoch(population);

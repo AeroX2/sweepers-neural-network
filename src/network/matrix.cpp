@@ -9,12 +9,12 @@ Matrix::Matrix(int width, int height)
 
 void Matrix::set(int x, int y, float value)
 {
-	matrix[y][x] = value;
+	matrix.at(y).at(x) = value;
 }
 
 float Matrix::get(int x, int y)
 {
-	return matrix[y][x];
+	return matrix.at(y).at(x);
 }
 
 void Matrix::set_by_row(vector<float> other_matrix)
