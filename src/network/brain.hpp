@@ -16,7 +16,7 @@ class Brain
 		void mutate();
 		void combine(Brain other_brain, int index);
 
-		vector<Matrix> get_genes();
+		vector<Matrix> &get_genes();
 		int get_fitness();
 		void set_fitness(int fitness);
 		void increase_fitness(int fitness);

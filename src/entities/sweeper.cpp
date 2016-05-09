@@ -5,6 +5,8 @@ Sweeper::Sweeper(Vector p, Brain brain)
 	this->p = p;
 	this->brain = brain;
 
+	rectangle.x = p.x;
+	rectangle.y = p.y;
 	rectangle.w = 10;
 	rectangle.h = 10;
 
@@ -15,8 +17,6 @@ Sweeper::Sweeper(Vector p, Brain brain)
 
 void Sweeper::update(Vector mine_location)
 {
-	mine_location.print();
-
 	Vector normalised_vector = (p - mine_location).normalise();
 	Matrix matrix = Matrix(1,5);
 	matrix.set(0,0,normalised_vector.x); 
@@ -25,24 +25,25 @@ void Sweeper::update(Vector mine_location)
 	matrix.set(0,3,v.y);
 	matrix.set(0,4,-1); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
-	if (output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw;
+
+	if (output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
 
 	float ltrack = output.get(0,0);
 	float rtrack = output.get(0,1);
 	float rotation_force = ltrack - rtrack; 
 
-	if (rotation_force > 0.3) rotation_force = 0.3;
-	if (rotation_force < -0.3) rotation_force = -0.3;
+	if (rotation_force > MAX_SWEEPER_TURN_RATE) rotation_force = MAX_SWEEPER_TURN_RATE;
+	if (rotation_force < -MAX_SWEEPER_TURN_RATE) rotation_force = -MAX_SWEEPER_TURN_RATE;
 
 	rotation += rotation_force;
 
 	v.x = -sin(rotation);
 	v.y = cos(rotation);
 
-	/*if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
+	if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
 	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
 	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
-	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; */
+	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; 
 
 	float speed = ltrack + rtrack;
 	//IDK Will fix

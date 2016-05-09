@@ -24,8 +24,8 @@ Logic::Logic()
 		Sweeper new_sweeper = Sweeper(p, new_brain);
 		sweepers.push_back(new_sweeper);
 	}
-	//Control_Sweeper control_sweeper = Control_Sweeper(p, new_brain);
-	//sweepers.push_back(&control_sweeper);
+	Control_Sweeper control_sweeper = Control_Sweeper(p, new_brain);
+	sweepers.push_back(control_sweeper);
 
 	ticks = 0;
 	max_fitness = 0;
@@ -33,8 +33,9 @@ Logic::Logic()
 
 void Logic::update(double delta)
 {
-	for (Sweeper &sweeper : sweepers)
+	for (const auto& reference : sweepers)
 	{
+		Sweeper sweeper = reference.get();
 		Vector mine_p = mines[0].get();
 		Vector sweeper_p = sweeper.get();
 		Vector closest_mine = mines[0].get();
@@ -77,6 +78,7 @@ void Logic::update(double delta)
 		else if (sweeper_p.y < 0) sweeper_p.y = SCREEN_HEIGHT;
 		sweeper.set(sweeper_p);
 	}
+	cout << "ick" << endl;
 	ticks += 1;
 	if (ticks > EPOCH_TICK_OVER)
 	{
@@ -87,9 +89,9 @@ void Logic::update(double delta)
 		population = Controller::epoch(population);
 		for (int i = 0; i < sweepers.size(); i++) 
 		{
-			sweepers[i].set_brain(population[i]);
-			sweepers[i].get_brain().set_fitness(0);
-			sweepers[i].new_position();
+			sweepers[i].get().set_brain(population[i]);
+			sweepers[i].get().get_brain().set_fitness(0);
+			sweepers[i].get().new_position();
 		}
 		for (Mine &mine : mines) mine.new_position();
 	}

@@ -1,6 +1,7 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 
+#include <memory>
 #include "entities/mine.hpp"
 #include "entities/sweeper.hpp"
 #include "entities/control_sweeper.hpp"
@@ -20,7 +21,7 @@ class Logic
 		void update(double delta);
 		void draw(SDL_Renderer* renderer);
 	private:
-		vector<Sweeper> sweepers;
+		vector<reference_wrapper<Sweeper>> sweepers;
 		vector<Mine> mines;
 		int ticks;
 		int max_fitness;

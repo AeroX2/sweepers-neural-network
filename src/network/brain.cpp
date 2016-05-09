@@ -90,7 +90,7 @@ void Brain::combine(Brain other_brain, int index)
 	}
 }
 
-vector<Matrix> Brain::get_genes()
+vector<Matrix> &Brain::get_genes()
 {
 	return genes;
 }
