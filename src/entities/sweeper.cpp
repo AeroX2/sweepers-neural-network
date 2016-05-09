@@ -99,8 +99,3 @@ void Sweeper::set_best(bool best)
 {
 	this->best = best;
 }
-
-Sweeper* Sweeper::create(Vector p, Brain brain)
-{
-	return new Sweeper(p, brain);
-}
