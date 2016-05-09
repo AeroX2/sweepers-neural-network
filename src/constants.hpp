@@ -1,30 +1,30 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
-#define FRAMERATE 1000/60
+const float FRAMERATE = 1000/60;
+
+const int POPULATION = 20;
+const int MINE_LEN = 40;
+const int EPOCH_TICK_OVER = 2000;
+const int HIT_DISTANCE = 5;
+
+const float MUTATION_CHANCE = 0.1;
+const float COMBINE_CHANCE = 0.3;
+const float MAX_PERTURB = 0.3;
+
+const int MAX_SWEEPER_SPEED = 100;
+
+const int BRAIN_INPUT_LEN = 4;
+const int BRAIN_OUTPUT_LEN = 2;
+const int BRAIN_HIDDEN_LEN = 6;
+const int BRAIN_HIDDEN_LAYER_LEN = 1;
 
 #define WHITE 255,255,255
 #define BLACK 0,0,0
 #define RED 255,0,0
 #define PURPLE 255,0,255
-
-#define POPULATION 1
-#define MINE_LEN 40
-#define EPOCH_TICK_OVER 2000
-#define HIT_DISTANCE 5 
-
-#define MUTATION_CHANCE 0.1
-#define COMBINE_CHANCE 0.3
-#define MAX_PERTURB 0.3 
-
-#define MAX_SWEEPER_SPEED 100
-
-#define BRAIN_INPUT_LEN 4
-#define BRAIN_OUTPUT_LEN 2
-#define BRAIN_HIDDEN_LEN 6
-#define BRAIN_HIDDEN_LAYER_LEN 1
 
 #endif

@@ -15,7 +15,7 @@ Sweeper::Sweeper(Vector p, Brain brain)
 
 void Sweeper::update(Vector mine_location)
 {
-	mine_location.print();
+	//mine_location.print();
 
 	Vector normalised_vector = (p - mine_location).normalise();
 	Matrix matrix = Matrix(1,5);
