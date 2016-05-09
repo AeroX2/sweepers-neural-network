@@ -59,7 +59,7 @@ int main(void)
 bool init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
-	window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) return true;
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
 	Plotter::init(0,0,10);

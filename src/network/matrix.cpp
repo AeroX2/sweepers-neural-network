@@ -58,7 +58,7 @@ Matrix Matrix::add(Matrix other_matrix)
 
 Matrix Matrix::multiply(Matrix other_matrix)
 {
-	if (get_width() != other_matrix.get_height()) throw;
+	if (get_width() != other_matrix.get_height()) throw runtime_error("Matrix sizes are not compatiable to multiply");
 
 	Matrix new_matrix = Matrix(other_matrix.get_width(), get_height());
 	for (int y0 = 0; y0 < new_matrix.get_height(); y0++)

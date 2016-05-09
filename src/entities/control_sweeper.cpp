@@ -29,6 +29,8 @@ void Control_Sweeper::update(Vector mine_location)
 	p += v;
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
+
+	get_brain().set_fitness(0);
 }
 
 void Control_Sweeper::draw(SDL_Renderer* renderer) 

@@ -72,6 +72,6 @@ Brain& Controller::roulette(vector<Brain> population, int total_fitness)
 		sum_fitness += brain.get_fitness();
 		if (sum_fitness >= rand_fitness) return brain;
 	}
-	throw;
+	throw runtime_error("Couldn't find suitable brain with fitness");
 }
 

@@ -52,7 +52,7 @@ void Brain::mutate()
 void Brain::combine(Brain other_brain, int index)
 {
 	vector<Matrix> other_genes = other_brain.get_genes();
-	if (genes.size() != other_genes.size()) throw;
+	if (genes.size() != other_genes.size()) throw runtime_error("Gene sizes does not match");
 
 	int size = 0;
 	bool already_cut = false;
