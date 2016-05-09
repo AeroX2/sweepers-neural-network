@@ -12,7 +12,7 @@ class Vector;
 class Sweeper
 {
 	public:
-		Sweeper(Vector p, Brain brain);
+		static Sweeper* create(Vector p, Brain brain);
 		virtual void update(Vector mine_location);
 		virtual void draw(SDL_Renderer* renderer);
 		void new_position();
@@ -24,6 +24,7 @@ class Sweeper
 		bool is_best();
 		void set_best(bool best);
 	protected:
+		Sweeper(Vector p, Brain brain);
 		double speed;
 		double rotation;
 		bool best;

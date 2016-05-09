@@ -33,3 +33,8 @@ void Control_Sweeper::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, PURPLE, 255);
 	SDL_RenderFillRect(renderer, &rectangle);
 }
+
+Control_Sweeper* Control_Sweeper::create(Vector p, Brain brain)
+{
+	return new Control_Sweeper(p, brain);
+}
