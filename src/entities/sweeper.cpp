@@ -37,19 +37,16 @@ void Sweeper::update(Vector mine_location)
 
 	rotation += rotation_force;
 
-	v.x = -sin(rotation);
-	v.y = cos(rotation);
+	float speed = ltrack + rtrack;
+	v.x = -sin(rotation) * speed;
+	v.y = cos(rotation) * speed;
 
 	if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
 	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
 	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
 	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; 
 
-	float speed = ltrack + rtrack;
-	//IDK Will fix
-	Vector test = v * speed;
-	p += test;
-
+	p += v;
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
 }
@@ -99,3 +96,9 @@ void Sweeper::set_best(bool best)
 {
 	this->best = best;
 }
+
+Sweeper* Sweeper::create(Vector p, Brain brain)
+{
+	return new Sweeper(p, brain);
+}
+

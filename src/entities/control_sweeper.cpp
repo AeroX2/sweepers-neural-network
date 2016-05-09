@@ -10,20 +10,23 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 	rectangle.h = 10;
 
 	rotation = 0.0;
-	speed = 1.5;
+	speed = CONTROL_SWEEPER_SPEED;
 }
 
 void Control_Sweeper::update(Vector mine_location) 
 {
-	rotation = atan2(mine_location.y, mine_location.y);
+	Vector temp = mine_location - p;
+	rotation = atan2(temp.y, temp.x);
 
-	v.x = -sin(rotation);
-	v.y = cos(rotation);
+	v.x = cos(rotation) * speed;
+	v.y = sin(rotation) * speed;
 
-	//IDK Will fix
-	Vector test = v * speed;
-	p += test;
+	if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
+	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
+	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
+	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; 
 
+	p += v;
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
 }
