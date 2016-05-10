@@ -20,14 +20,14 @@ Vector Vector::operator-(const Vector &rhs)
 	return new_vector;
 }
 
-Vector Vector::operator*(const Vector &rhs)
+Vector Vector::operator*(const Vector& rhs)
 {
 	Vector new_vector(this->x, this->y);
 	new_vector *= rhs;
 	return new_vector;
 }
 
-Vector Vector::operator*(const float &rhs)
+Vector Vector::operator*(const float rhs)
 {
 	Vector new_vector(this->x, this->y);
 	new_vector.x *= rhs;
@@ -35,28 +35,28 @@ Vector Vector::operator*(const float &rhs)
 	return new_vector;
 }
 
-Vector& Vector::operator+=(const Vector &rhs)
+Vector& Vector::operator+=(const Vector& rhs)
 {
 	x += rhs.x;
 	y += rhs.y;
 	return *this;
 }
 
-Vector& Vector::operator-=(const Vector &rhs)
+Vector& Vector::operator-=(const Vector& rhs)
 {
 	x -= rhs.x;
 	y -= rhs.y;
 	return *this;
 }
 
-Vector& Vector::operator*=(const Vector &rhs)
+Vector& Vector::operator*=(const Vector& rhs)
 {
 	x *= rhs.x;
 	y *= rhs.y;
 	return *this;
 }
 
-Vector& Vector::operator*=(const float &rhs)
+Vector& Vector::operator*=(const float rhs)
 {
 	x *= rhs;
 	y *= rhs;

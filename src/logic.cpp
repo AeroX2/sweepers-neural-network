@@ -25,13 +25,13 @@ Logic::Logic()
 		sweepers.push_back(reference_wrapper<Sweeper>(*new_sweeper));
 	}
 
-	/*rand_x = rand() % SCREEN_WIDTH;
+	rand_x = rand() % SCREEN_WIDTH;
 	rand_y = rand() % SCREEN_HEIGHT;
 	p = Vector(rand_x, rand_y);
 	new_brain = Brain();
 
 	Control_Sweeper* control_sweeper = Control_Sweeper::create(p,new_brain);
-	sweepers.push_back(reference_wrapper<Sweeper>(*control_sweeper));*/
+	sweepers.push_back(reference_wrapper<Sweeper>(*control_sweeper));
 
 	ticks = 0;
 	max_fitness = 0;
@@ -111,7 +111,7 @@ void Logic::update(double delta)
 			sweeper.set_best(false);
 			sweeper.new_position();
 		}
-		for (Mine &mine : mines) mine.new_position();
+		for (Mine& mine : mines) mine.new_position();
 	}
 }
 

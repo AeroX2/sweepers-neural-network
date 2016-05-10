@@ -11,15 +11,15 @@ class Vector
 	public:
 		Vector(double x=0,double y=0,bool random=false);
 
-		Vector operator+(const Vector &rhs);
-		Vector operator-(const Vector &rhs);
-		Vector operator*(const Vector &rhs);
-		Vector operator*(const float &rhs);
+		Vector operator+(const Vector& rhs);
+		Vector operator-(const Vector& rhs);
+		Vector operator*(const Vector& rhs);
+		Vector operator*(const float rhs);
 
-		Vector& operator+=(const Vector &rhs);
-		Vector& operator-=(const Vector &rhs);
-		Vector& operator*=(const Vector &rhs);
-		Vector& operator*=(const float &rhs);
+		Vector& operator+=(const Vector& rhs);
+		Vector& operator-=(const Vector& rhs);
+		Vector& operator*=(const Vector& rhs);
+		Vector& operator*=(const float rhs);
 
 		float distance();
 		Vector normalise();

@@ -38,7 +38,7 @@ Matrix Brain::update(Matrix other_matrix)
 
 void Brain::mutate()
 {
-	for (Matrix &matrix : genes)
+	for (Matrix& matrix : genes)
 	{
 		struct Temp
 		{
@@ -59,7 +59,7 @@ void Brain::combine(Brain other_brain, int index)
 
 	for (int location = 0; location < genes.size(); location++)
 	{
-		Matrix &matrix = genes[location];
+		Matrix& matrix = genes[location];
 		Matrix other_matrix = other_genes[location];
 
 		size += matrix.get_width() * matrix.get_height();
@@ -90,7 +90,7 @@ void Brain::combine(Brain other_brain, int index)
 	}
 }
 
-vector<Matrix> &Brain::get_genes()
+vector<Matrix>& Brain::get_genes()
 {
 	return genes;
 }
