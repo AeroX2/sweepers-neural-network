@@ -5,8 +5,8 @@ Sweeper::Sweeper(Vector p, Brain brain)
 	this->p = p;
 	this->brain = brain;
 
-	//rectangle.x = p.x;
-	//rectangle.y = p.y;
+	rectangle.x = p.x;
+	rectangle.y = p.y;
 	rectangle.w = 10;
 	rectangle.h = 10;
 
@@ -28,19 +28,18 @@ void Sweeper::update(Vector mine_location)
 
 	if (output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
 
-	//float ltrack = output.get(0,0);
-	//float rtrack = output.get(0,1);
-	//float rotation_force = ltrack - rtrack; 
+	float ltrack = output.get(0,0);
+	float rtrack = output.get(0,1);
+	float rotation_force = ltrack - rtrack; 
 
-	//if (rotation_force > MAX_SWEEPER_TURN_RATE) rotation_force = MAX_SWEEPER_TURN_RATE;
-	//if (rotation_force < -MAX_SWEEPER_TURN_RATE) rotation_force = -MAX_SWEEPER_TURN_RATE;
+	if (rotation_force > MAX_SWEEPER_TURN_RATE) rotation_force = MAX_SWEEPER_TURN_RATE;
+	if (rotation_force < -MAX_SWEEPER_TURN_RATE) rotation_force = -MAX_SWEEPER_TURN_RATE;
 
-	//rotation += rotation_force;
+	rotation += rotation_force;
 
-	//float ltrack = output.get(0,0);
-	//float speed = ltrack + rtrack;
-	float speed = CONTROL_SWEEPER_SPEED;
-	float rotation = (output.get(0,0) - 0.5)*2*M_PI;
+	float speed = ltrack + rtrack;
+	//float speed = CONTROL_SWEEPER_SPEED;
+	//float rotation = (output.get(0,0) - 0.5)*2*M_PI;
 	v.x = cos(rotation) * speed;
 	v.y = sin(rotation) * speed;
 

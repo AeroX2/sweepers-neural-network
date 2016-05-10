@@ -20,7 +20,7 @@ const float MAX_SWEEPER_TURN_RATE = 0.3;
 const float MAX_SWEEPER_SPEED = 2.0;
 
 const int BRAIN_INPUT_LEN = 4;
-const int BRAIN_OUTPUT_LEN = 1;
+const int BRAIN_OUTPUT_LEN = 2;
 const int BRAIN_HIDDEN_LEN = 6;
 const int BRAIN_HIDDEN_LAYER_LEN = 1;
 
