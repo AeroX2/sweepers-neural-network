@@ -1,4 +1,4 @@
-# neural-network
+# sweepers-neural-network
 Neural Network created in C++. Based heavily off <http://ai-junkie.com> (Smart Sweepers)  
 
 # building and running
