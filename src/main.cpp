@@ -3,7 +3,7 @@
 int main(void)
 {
 	if (init()) running = false;
-	if (!running) cout << "Error in initialising window";
+	if (!running) cout << "Error in initialising window\n";
 
 	double current_time, last_time, delta;
 	while (running)
@@ -18,7 +18,7 @@ int main(void)
 			{
 				if (e.key.keysym.sym == SDLK_f) 
 				{
-					cout << "F key pressed" << endl;
+					cout << "F key pressed\n";
 					fast = !fast;
 				}
 			}
@@ -62,12 +62,17 @@ bool init()
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) return true;
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
+
+	if (TTF_Init() < 0) return true;
+	font = TTF_OpenFont("arial.ttf", 12);
+	if (font == NULL) return true;
+
 	Plotter::init(10);
 	Plotter::new_line(0, 0, 0);
 	Plotter::new_line(255, 0, 0);
 
-	if (Config::read_from_file("config.txt")) cout << "Using values from files" << endl;
-	else cout << "Failed to read from file, using defaults" << endl;
+	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
+	else cout << "Failed to read from file, using defaults\n";
 
 	cout << "Mutation " << MUTATION_CHANCE << endl;
 	cout << "Combine " << COMBINE_CHANCE << endl;
@@ -79,5 +84,36 @@ bool init()
 void destroy()
 {	
 	SDL_DestroyWindow(window);
+	TTF_CloseFont(font);
+	TTF_Quit();
 	SDL_Quit();
 }
+
+void draw_font(string message, int x, int y)
+{
+	SDL_Color color = {0, 0, 0};
+
+	SDL_Surface* text_surface = TTF_RenderText_Blended(font, message.c_str(), color);
+	if (text_surface == NULL)
+	{
+		cout << "Couldn't create text to draw\n";
+		return;
+	}
+
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+	if (texture == NULL) 
+	{
+		 cout << "Unable to create texture from rendered text\n";
+		 return;
+	}
+	int width = 0;
+	int height = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+	SDL_Rect offset = {x, y, width, height};
+
+	SDL_RenderCopy(renderer, texture, NULL, &offset);
+
+	SDL_FreeSurface(text_surface);
+	SDL_DestroyTexture(texture);
+}
+

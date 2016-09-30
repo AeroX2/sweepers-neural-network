@@ -30,11 +30,21 @@ Logic::Logic()
 	p = Vector(rand_x, rand_y);
 	new_brain = Brain();
 
-	Control_Sweeper* control_sweeper = Control_Sweeper::create(p,new_brain);
-	sweepers.push_back(reference_wrapper<Sweeper>(*control_sweeper));
+	Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);
+	control_sweeper = temp;	
+	sweepers.push_back(reference_wrapper<Sweeper>(*temp));
+	best_sweeper = &sweepers[0].get();
 
 	ticks = 0;
 	max_fitness = 0;
+}
+
+Logic::~Logic()
+{
+	for (auto reference : sweepers)
+	{
+		delete &reference.get();
+	}
 }
 
 void Logic::update(double delta)
@@ -78,6 +88,7 @@ void Logic::update(double delta)
 				sweeper2.set_best(false);
 			}
 			sweeper.set_best(true);
+			best_sweeper = &sweeper;
 		}
 		sweeper.update(closest_mine);
 
@@ -123,4 +134,7 @@ void Logic::draw(SDL_Renderer* renderer)
 		Sweeper& sweeper = reference.get();	
 		sweeper.draw(renderer);
 	}
+
+	draw_font("Current max fitness: " + to_string(best_sweeper->get_brain().get_fitness()), 10, 10);
+	draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
 }

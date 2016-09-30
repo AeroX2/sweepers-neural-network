@@ -11,6 +11,8 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 
 	rotation = 0.0;
 	speed = CONTROL_SWEEPER_SPEED;
+
+	fitness = 0;
 }
 
 void Control_Sweeper::update(Vector mine_location) 
@@ -30,6 +32,7 @@ void Control_Sweeper::update(Vector mine_location)
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
 
+	fitness += get_brain().get_fitness();
 	get_brain().set_fitness(0);
 }
 
@@ -37,6 +40,11 @@ void Control_Sweeper::draw(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, PURPLE, 255);
 	SDL_RenderFillRect(renderer, &rectangle);
+}
+
+int Control_Sweeper::get_fitness()
+{
+	return this->fitness;
 }
 
 Control_Sweeper* Control_Sweeper::create(Vector p, Brain brain)

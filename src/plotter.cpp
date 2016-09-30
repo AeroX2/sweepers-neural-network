@@ -7,6 +7,7 @@ bool Plotter::dirty = true;
 int Plotter::step_x = 0;
 float Plotter::scale_x = 10;
 float Plotter::scale_y = 30;
+float Plotter::largest_y = 0;
 
 void Plotter::init(float step_x)
 {
@@ -27,6 +28,13 @@ void Plotter::draw(SDL_Renderer* renderer)
 			x += step_x;
 		}
 	}
+
+	int y = round(SCREEN_HEIGHT - largest_y * scale_y);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	SDL_RenderDrawLine(renderer, 0, y, SCREEN_WIDTH, y);
+
+	draw_font("Current max fitness: " + to_string((int)largest_y), 10, 10);
+
 	dirty = false;
 }
 
@@ -35,6 +43,7 @@ void Plotter::add_point(int id, float y)
 	points[id].push_back(y);
 	if (y * scale_y >= SCREEN_HEIGHT) scale_y /= 2;
 	if (points[id].size() * step_x * scale_x >= SCREEN_WIDTH) scale_x /= 2;
+	if (y > largest_y) largest_y = y;
 	dirty = true;	
 }
 

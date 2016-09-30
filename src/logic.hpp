@@ -18,6 +18,7 @@ class Logic
 {
 	public:
 		Logic();
+		~Logic();
 		void update(double delta);
 		void draw(SDL_Renderer* renderer);
 	private:
@@ -25,6 +26,10 @@ class Logic
 		vector<Mine> mines;
 		int ticks;
 		int max_fitness;
+
+		Control_Sweeper* control_sweeper = NULL;
+		Sweeper* best_sweeper = NULL;
 };
 
+void draw_font(string message, int x, int y);
 #endif

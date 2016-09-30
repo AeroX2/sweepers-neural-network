@@ -9,8 +9,10 @@ class Control_Sweeper : public Sweeper
 		static Control_Sweeper* create(Vector p, Brain brain);
 		void update(Vector mine_location) override;
 		void draw(SDL_Renderer* renderer) override;
+		int get_fitness();
 	private:
 		Control_Sweeper(Vector p, Brain brain);
+		int fitness;
 };
 
 #endif

@@ -28,6 +28,8 @@ class Plotter
 		static int step_x;
 		static float scale_x;
 		static float scale_y;
+		static float largest_y;
 };
 
+void draw_font(string message, int x, int y);
 #endif
