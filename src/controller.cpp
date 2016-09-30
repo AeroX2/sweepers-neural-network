@@ -24,7 +24,8 @@ vector<Brain> Controller::epoch(vector<Brain> population)
 	cout << "Total fitness: " << total_fitness << endl;
 	cout << "Average fitness: " << average_fitness << endl;
 	cout << "Max fitness: " << best_fitness << endl;
-	Plotter::add_point(average_fitness);
+	Plotter::add_point(0,average_fitness);
+	Plotter::add_point(1,best_fitness);
 
 	vector<Brain> new_population = vector<Brain>();
 

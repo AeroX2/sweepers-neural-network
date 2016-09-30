@@ -62,7 +62,9 @@ bool init()
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) return true;
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
-	Plotter::init(0,0,10);
+	Plotter::init(10);
+	Plotter::new_line(0, 0, 0);
+	Plotter::new_line(255, 0, 0);
 
 	if (Config::read_from_file("config.txt")) cout << "Using values from files" << endl;
 	else cout << "Failed to read from file, using defaults" << endl;
