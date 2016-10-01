@@ -47,6 +47,11 @@ int Control_Sweeper::get_fitness()
 	return this->fitness;
 }
 
+void Control_Sweeper::set_fitness(int fitness)
+{
+	this->fitness = fitness;
+}
+
 Control_Sweeper* Control_Sweeper::create(Vector p, Brain brain)
 {
 	return new Control_Sweeper(p, brain);

@@ -10,7 +10,7 @@
 
 #include "controller.hpp"
 
-class SDL_Renderer;
+struct SDL_Renderer;
 
 using namespace std;
 
@@ -19,10 +19,10 @@ class Logic
 	public:
 		Logic();
 		~Logic();
-		void update(double delta);
+		void update();
 		void draw(SDL_Renderer* renderer);
 	private:
-		vector<reference_wrapper<Sweeper>> sweepers;
+		vector<reference_wrapper<Sweeper> > sweepers;
 		vector<Mine> mines;
 		int ticks;
 		int max_fitness;

@@ -23,7 +23,7 @@ int main(void)
 				}
 			}
 		}
-		logic.update(delta);
+		logic.update();
 
 		if (fast)
 		{
@@ -62,14 +62,15 @@ bool init()
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) return true;
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL) return true;
 
 	if (TTF_Init() < 0) return true;
 	font = TTF_OpenFont("arial.ttf", 12);
 	if (font == NULL) return true;
 
 	Plotter::init(10);
-	Plotter::new_line(0, 0, 0);
-	Plotter::new_line(255, 0, 0);
+	Plotter::new_line(BLACK);
+	Plotter::new_line(RED);
 
 	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
 	else cout << "Failed to read from file, using defaults\n";
@@ -91,7 +92,7 @@ void destroy()
 
 void draw_font(string message, int x, int y)
 {
-	SDL_Color color = {0, 0, 0};
+	SDL_Color color = {BLACK, 255};
 
 	SDL_Surface* text_surface = TTF_RenderText_Blended(font, message.c_str(), color);
 	if (text_surface == NULL)

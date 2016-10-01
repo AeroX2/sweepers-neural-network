@@ -53,7 +53,18 @@ void Matrix::add_bias()
 
 Matrix Matrix::add(Matrix other_matrix)
 {
-	return Matrix(0,0);
+	if (get_width() != other_matrix.get_width()) throw runtime_error("Matrix width does not match");
+	if (get_height() != other_matrix.get_height()) throw runtime_error("Matrix height does not match");
+
+	Matrix new_matrix = Matrix(get_width(), get_height());
+	for (int y = 0; y < get_height(); y++)
+	{
+		for (int x = 0; x < get_width(); x++)
+		{
+			new_matrix.set(x,y,get(x,y) + other_matrix.get(x,y));	
+		}
+	}
+	return new_matrix;
 }
 
 Matrix Matrix::multiply(Matrix other_matrix)
@@ -89,10 +100,10 @@ void Matrix::apply(float(*func)(float))
 
 void Matrix::print()
 {
-	for (int i = 0; i < matrix.size(); i++)
+	for (size_t i = 0; i < matrix.size(); i++)
 	{
 		cout << "[ ";
-		for (int ii = 0; ii < matrix[i].size(); ii++)
+		for (size_t ii = 0; ii < matrix[i].size(); ii++)
 		{
 			cout << matrix[i][ii] << " ";
 		}

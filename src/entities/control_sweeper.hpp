@@ -10,6 +10,7 @@ class Control_Sweeper : public Sweeper
 		void update(Vector mine_location) override;
 		void draw(SDL_Renderer* renderer) override;
 		int get_fitness();
+		void set_fitness(int fitness);
 	private:
 		Control_Sweeper(Vector p, Brain brain);
 		int fitness;

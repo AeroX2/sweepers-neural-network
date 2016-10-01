@@ -57,7 +57,7 @@ void Brain::combine(Brain other_brain, int index)
 	int size = 0;
 	bool already_cut = false;
 
-	for (int location = 0; location < genes.size(); location++)
+	for (size_t location = 0; location < genes.size(); location++)
 	{
 		Matrix& matrix = genes[location];
 		Matrix other_matrix = other_genes[location];

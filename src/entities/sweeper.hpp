@@ -13,6 +13,7 @@ class Sweeper
 {
 	public:
 		static Sweeper* create(Vector p, Brain brain);
+		virtual ~Sweeper() {};
 		virtual void update(Vector mine_location);
 		virtual void draw(SDL_Renderer* renderer);
 		void new_position();

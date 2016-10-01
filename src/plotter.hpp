@@ -12,7 +12,7 @@ using namespace std;
 
 class Plotter
 {
-	static vector<vector<float>> points;
+	static vector<vector<float> > points;
 	static vector<SDL_Color> colors;
 
 	public:

@@ -47,7 +47,7 @@ Logic::~Logic()
 	}
 }
 
-void Logic::update(double delta)
+void Logic::update()
 {
 	for (auto reference : sweepers)
 	{
@@ -114,7 +114,7 @@ void Logic::update(double delta)
 		population = Controller::epoch(population);
 
 		//-1 because of Control_Sweeper doesn't deserve a brain
-		for (int i = 0; i < sweepers.size()-1; i++) 
+		for (size_t i = 0; i < sweepers.size()-1; i++) 
 		{
 			Sweeper& sweeper = sweepers[i].get();
 			sweeper.set_brain(population[i]);
@@ -123,6 +123,7 @@ void Logic::update(double delta)
 			sweeper.new_position();
 		}
 		for (Mine& mine : mines) mine.new_position();
+		control_sweeper->set_fitness(0);
 	}
 }
 

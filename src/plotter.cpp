@@ -1,6 +1,6 @@
 #include "plotter.hpp"
 
-vector<vector<float>> Plotter::points;
+vector<vector<float> > Plotter::points;
 vector<SDL_Color> Plotter::colors;
 
 bool Plotter::dirty = true;
@@ -16,10 +16,10 @@ void Plotter::init(float step_x)
 
 void Plotter::draw(SDL_Renderer* renderer)
 {
-	for (int id = 0; id < points.size(); id++) 
+	for (size_t id = 0; id < points.size(); id++) 
 	{	
 		int x = 0;
-		for (int point = 0; point < points[id].size()-1; point++)
+		for (size_t point = 0; point < points[id].size()-1; point++)
 		{
 			SDL_SetRenderDrawColor(renderer, colors[id].r, colors[id].g, colors[id].b, 255);
 			int point_1 = round(SCREEN_HEIGHT - points[id][point] * scale_y);
@@ -33,7 +33,8 @@ void Plotter::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 	SDL_RenderDrawLine(renderer, 0, y, SCREEN_WIDTH, y);
 
-	draw_font("Current max fitness: " + to_string((int)largest_y), 10, 10);
+	draw_font("Generation: " + to_string((int)points[0].size()), 10, 10);
+	draw_font("Current max fitness: " + to_string((int)largest_y), 10, 30);
 
 	dirty = false;
 }
@@ -52,7 +53,7 @@ void Plotter::new_line(unsigned char r, unsigned char g, unsigned char b)
 	vector<float> temp;
 	temp.push_back(0);
 	points.push_back(temp);
-	SDL_Color temp2 = {r, g, b};
+	SDL_Color temp2 = {r, g, b, 255};
 	colors.push_back(temp2);
 }
 

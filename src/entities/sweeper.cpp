@@ -26,7 +26,7 @@ void Sweeper::update(Vector mine_location)
 	matrix.set(0,4,-1); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
 
-	if (output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
+	if ((int) output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
 
 	float ltrack = output.get(0,0);
 	float rtrack = output.get(0,1);

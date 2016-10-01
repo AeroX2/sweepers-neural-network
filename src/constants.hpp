@@ -11,9 +11,9 @@ static int MINE_LEN = 40;
 static int EPOCH_TICK_OVER = 2000;
 static int HIT_DISTANCE = 5;
 
-static float MUTATION_CHANCE = 0.1;
-static float COMBINE_CHANCE = 0.7;
-static float MAX_PERTURB = 0.3;
+extern float MUTATION_CHANCE;
+extern float COMBINE_CHANCE;
+extern float MAX_PERTURB;
 
 static float CONTROL_SWEEPER_SPEED = 1.5;
 static float MAX_SWEEPER_TURN_RATE = 0.3;
