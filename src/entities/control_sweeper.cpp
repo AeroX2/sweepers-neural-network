@@ -15,9 +15,9 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 	fitness = 0;
 }
 
-void Control_Sweeper::update(Vector mine_location) 
+void Control_Sweeper::update(Mine mine) 
 {
-	Vector temp = mine_location - p;
+	Vector temp = mine.get() - p;
 	rotation = atan2(temp.y, temp.x);
 
 	v.x = cos(rotation) * speed;

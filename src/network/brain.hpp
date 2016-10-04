@@ -14,7 +14,8 @@ class Brain
 		Matrix update(Matrix other_matrix);
 
 		void mutate();
-		void combine(Brain other_brain, int index);
+		void combine_crossover(Brain other_brain, int index);
+		void combine_two_point(Brain other_brain, int index1, int index2);
 
 		vector<Matrix>& get_genes();
 		int get_fitness();

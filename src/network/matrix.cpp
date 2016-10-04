@@ -23,7 +23,7 @@ void Matrix::set_by_row(vector<float> other_matrix)
 	{
 		for (int x = 0; x < get_width(); x++)
 		{
-			set(x,y,other_matrix[y*get_width()+x]);
+			set(x,y,other_matrix.at(y*get_width()+x));
 		}
 	}	
 }
@@ -34,7 +34,7 @@ void Matrix::set_by_col(vector<float> other_matrix)
 	{
 		for (int x = 0; x < get_width(); x++)
 		{
-			set(x,y,other_matrix[x*get_height()+y]);
+			set(x,y,other_matrix.at(x*get_height()+y));
 		}
 	}	
 }
@@ -100,12 +100,12 @@ void Matrix::apply(float(*func)(float))
 
 void Matrix::print()
 {
-	for (size_t i = 0; i < matrix.size(); i++)
+	for (int y = 0; y < get_height(); y++)
 	{
 		cout << "[ ";
-		for (size_t ii = 0; ii < matrix[i].size(); ii++)
+		for (int x = 0; x < get_width(); x++)
 		{
-			cout << matrix[i][ii] << " ";
+			cout << get(x,y) << " ";
 		}
 		cout << "]" << endl;
 	}
@@ -120,6 +120,11 @@ int Matrix::get_width()
 int Matrix::get_height()
 {
 	return height;
+}
+
+int Matrix::size()
+{
+	return get_width() * get_height();
 }
 
 vector<vector<float>> Matrix::get_matrix()

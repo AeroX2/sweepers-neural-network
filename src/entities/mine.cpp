@@ -8,11 +8,15 @@ Mine::Mine()
 	rectangle.y = p.y;
 	rectangle.w = 5;
 	rectangle.h = 5;
+
+	if (rand() % 100 < 85) avoid = false;
+	else avoid = true;
 }
 
 void Mine::draw(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, BLACK, 255);
+	if (avoid) SDL_SetRenderDrawColor(renderer, ORANGE, 255);
+	else SDL_SetRenderDrawColor(renderer, BLACK, 255);
 	SDL_RenderFillRect(renderer, &rectangle);
 }
 
@@ -24,6 +28,9 @@ void Mine::new_position()
 
 	this->rectangle.x = p.x;
 	this->rectangle.y = p.y;
+
+	if (rand() % 100 < 85) avoid = false;
+	else avoid = true;
 }
 
 Vector& Mine::get()
@@ -31,3 +38,7 @@ Vector& Mine::get()
 	return p;
 }
 
+bool Mine::is_avoid()
+{
+	return avoid;
+}

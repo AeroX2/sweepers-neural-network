@@ -1,12 +1,12 @@
 #include "plotter.hpp"
 
-vector<vector<float> > Plotter::points;
+vector<vector<float>> Plotter::points;
 vector<SDL_Color> Plotter::colors;
 
 bool Plotter::dirty = true;
-int Plotter::step_x = 0;
 float Plotter::scale_x = 10;
 float Plotter::scale_y = 30;
+int Plotter::step_x = 0;
 float Plotter::largest_y = 0;
 
 void Plotter::init(float step_x)
@@ -33,7 +33,7 @@ void Plotter::draw(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 	SDL_RenderDrawLine(renderer, 0, y, SCREEN_WIDTH, y);
 
-	draw_font("Generation: " + to_string((int)points[0].size()), 10, 10);
+	draw_font("Generation: " + to_string((int)points[0].size()-1), 10, 10);
 	draw_font("Current max fitness: " + to_string((int)largest_y), 10, 30);
 
 	dirty = false;

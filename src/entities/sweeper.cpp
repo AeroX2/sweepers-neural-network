@@ -15,18 +15,21 @@ Sweeper::Sweeper(Vector p, Brain brain)
 	best = false;
 }
 
-void Sweeper::update(Vector mine_location)
+void Sweeper::update(Mine mine)
 {
-	Vector normalised_vector = (p - mine_location).normalise();
-	Matrix matrix = Matrix(1,5);
+	Vector normalised_vector = (p - mine.get()).normalise();
+	Vector normalised_velocity = v;
+
+	Matrix matrix = Matrix(1,6);
 	matrix.set(0,0,normalised_vector.x); 
 	matrix.set(0,1,normalised_vector.y);
-	matrix.set(0,2,v.x);
-	matrix.set(0,3,v.y);
-	matrix.set(0,4,-1); //faster than add_bias (probably)
+	matrix.set(0,2,normalised_velocity.x);
+	matrix.set(0,3,normalised_velocity.y);
+	matrix.set(0,4,mine.is_avoid());
+	matrix.set(0,5,-1.0); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
 
-	if ((int) output.get_matrix().size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
+	if (output.size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
 
 	float ltrack = output.get(0,0);
 	float rtrack = output.get(0,1);
@@ -40,15 +43,15 @@ void Sweeper::update(Vector mine_location)
 	float speed = ltrack + rtrack;
 	//float speed = CONTROL_SWEEPER_SPEED;
 	//float rotation = (output.get(0,0) - 0.5)*2*M_PI;
-	v.x = cos(rotation) * speed;
-	v.y = sin(rotation) * speed;
+	v.x = cos(rotation);
+	v.y = sin(rotation);
 
-	if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
+	/*if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
 	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
 	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
-	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; 
+	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; */
 
-	p += v;
+	p += v * speed;
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
 }
@@ -64,9 +67,8 @@ void Sweeper::new_position()
 {
 	int rand_x = rand() % SCREEN_WIDTH;
 	int rand_y = rand() % SCREEN_HEIGHT;
-	this->p = Vector(rand_x, rand_y);
-
-	this->rotation = Utils::random_range(0,2*M_PI);
+	p = Vector(rand_x, rand_y);
+	rotation = Utils::random_range(0,2*M_PI);
 }
 
 Vector& Sweeper::get()

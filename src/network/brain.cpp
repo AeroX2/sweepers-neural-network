@@ -49,7 +49,7 @@ void Brain::mutate()
 	}
 }
 
-void Brain::combine(Brain other_brain, int index)
+void Brain::combine_crossover(Brain other_brain, int index)
 {
 	vector<Matrix> other_genes = other_brain.get_genes();
 	if (genes.size() != other_genes.size()) throw runtime_error("Gene sizes does not match");
@@ -62,29 +62,75 @@ void Brain::combine(Brain other_brain, int index)
 		Matrix& matrix = genes[location];
 		Matrix other_matrix = other_genes[location];
 
-		size += matrix.get_width() * matrix.get_height();
+		size += matrix.size();
 		if (size >= index)
 		{
 			if (already_cut) genes[location] = other_matrix;
 			else
 			{
-				int addition = 0;
-				bool stop = false;
-				for (int y = matrix.get_height()-1; y > 0 && !stop; y--)
+				for (int y = matrix.get_height()-1; y > 0; y--)
 				{
-					for (int x = matrix.get_width()-1; x > 0 && !stop; x--)
+					for (int x = matrix.get_width()-1; x > 0; x--)
 					{
-						addition++;
-						if (addition >= (size-index)) 
-						{
-							stop = true;
-							break;
-						}
-
+						if (y*matrix.get_width()+x >= size-index) break;
 						matrix.set(x,y,other_matrix.get(x,y));
 					}
 				}
 				already_cut = true;
+			}
+		}
+	}
+}
+
+void Brain::combine_two_point(Brain other_brain, int index1, int index2)
+{
+	vector<Matrix> other_genes = other_brain.get_genes();
+	if (genes.size() != other_genes.size()) throw runtime_error("Gene sizes does not match");
+
+	int size = 0;
+	bool first_cut = false;
+	bool second_cut = false;
+
+	for (size_t location = 0; location < genes.size(); location++)
+	{
+		Matrix& matrix = genes[location];
+		Matrix other_matrix = other_genes[location];
+
+		size += matrix.size();
+		if (size > index1 && !first_cut)
+		{
+			index1 -= size - matrix.size();
+			index1 = floor((double) index1 / matrix.get_width());
+
+			int temp_index2 = index2 - (size - matrix.size());
+			temp_index2 = min(temp_index2, size-1);
+			temp_index2 = floor((double) temp_index2 / matrix.get_width());
+
+			for (int y = index1; y <= temp_index2; y++)
+			{
+				for (int x = 0; x < matrix.get_width(); x++)
+				{
+					matrix.set(x,y,other_matrix.get(x,y));
+				}
+			}
+			first_cut = true;
+		}
+		else if (first_cut)
+		{
+			//Not sure if < or <=
+			if (size < index2) genes[location] = other_matrix;
+			else if (!second_cut)
+			{
+				index2 -= size - matrix.size();
+				index2 = floor((double) index2 / matrix.get_width());
+				for (int y = 0; y <= index2; y++)
+				{
+					for (int x = 0; x < matrix.get_width()-1; x++)
+					{
+						matrix.set(x,y,other_matrix.get(x,y));
+					}
+				}
+				second_cut = true;	
 			}
 		}
 	}
@@ -115,6 +161,7 @@ vector<float> Brain::random_array(int length)
 	vector<float> new_vector = vector<float>();
 	for (int i = 0; i < length; i++)
 	{
+		//new_vector.push_back(i);
 		new_vector.push_back(Utils::random_clamped());
 	}
 	return new_vector;	

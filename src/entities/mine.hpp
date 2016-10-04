@@ -13,9 +13,11 @@ class Mine
 		void draw(SDL_Renderer* renderer);
 		void new_position();
 		Vector& get();
+		bool is_avoid();
 	private:
 		Vector p;
 		SDL_Rect rectangle;
+		bool avoid;
 };
 
 #endif

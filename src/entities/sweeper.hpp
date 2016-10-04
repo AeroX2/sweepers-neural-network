@@ -5,6 +5,7 @@
 
 #include "../constants.hpp"
 #include "vector.hpp"
+#include "mine.hpp"
 #include "../network/brain.hpp"
 
 class Vector;
@@ -14,7 +15,7 @@ class Sweeper
 	public:
 		static Sweeper* create(Vector p, Brain brain);
 		virtual ~Sweeper() {};
-		virtual void update(Vector mine_location);
+		virtual void update(Mine mine);
 		virtual void draw(SDL_Renderer* renderer);
 		void new_position();
 

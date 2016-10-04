@@ -6,21 +6,21 @@ Vector::Vector(double x, double y)
 	this->y = y;
 }
 
-Vector Vector::operator+(const Vector &rhs)
+Vector Vector::operator+(const Vector rhs)
 {
 	Vector new_vector(this->x, this->y);
 	new_vector += rhs;
 	return new_vector;
 }
 
-Vector Vector::operator-(const Vector &rhs)
+Vector Vector::operator-(const Vector rhs)
 {
 	Vector new_vector(this->x, this->y);
 	new_vector -= rhs;
 	return new_vector;
 }
 
-Vector Vector::operator*(const Vector& rhs)
+Vector Vector::operator*(const Vector rhs)
 {
 	Vector new_vector(this->x, this->y);
 	new_vector *= rhs;
@@ -72,8 +72,11 @@ Vector Vector::normalise()
 {
 	float length = distance();
 	Vector new_vector = Vector(x, y);
-	new_vector.x = new_vector.x / length;
-	new_vector.y = new_vector.y / length;
+	if (length != 0)
+	{
+		new_vector.x = new_vector.x / length;
+		new_vector.y = new_vector.y / length;
+	}
 	return new_vector;
 }
 

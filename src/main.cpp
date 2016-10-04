@@ -71,6 +71,7 @@ bool init()
 	Plotter::init(10);
 	Plotter::new_line(BLACK);
 	Plotter::new_line(RED);
+	Plotter::new_line(PURPLE);
 
 	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
 	else cout << "Failed to read from file, using defaults\n";
