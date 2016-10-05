@@ -20,7 +20,7 @@ static float CONTROL_SWEEPER_SPEED = 1.5;
 static float MAX_SWEEPER_TURN_RATE = 0.3;
 static float MAX_SWEEPER_SPEED = 2.0;
 
-static int BRAIN_INPUT_LEN = 5;
+static int BRAIN_INPUT_LEN = 7;
 static int BRAIN_OUTPUT_LEN = 2;
 static int BRAIN_HIDDEN_LEN = 10;
 static int BRAIN_HIDDEN_LAYER_LEN = 1;

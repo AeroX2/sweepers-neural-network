@@ -4,13 +4,11 @@ Mine::Mine()
 {
 	new_position();
 
-	rectangle.x = p.x;
-	rectangle.y = p.y;
 	rectangle.w = 5;
 	rectangle.h = 5;
 
 	if (rand() % 100 < 85) avoid = false;
-	else avoid = true;
+	else avoid = false;
 }
 
 void Mine::draw(SDL_Renderer* renderer)
@@ -30,7 +28,7 @@ void Mine::new_position()
 	this->rectangle.y = p.y;
 
 	if (rand() % 100 < 85) avoid = false;
-	else avoid = true;
+	else avoid = false;
 }
 
 Vector& Mine::get()

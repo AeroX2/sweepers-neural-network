@@ -2,6 +2,7 @@
 #define BRAIN_H
 
 #include <vector>
+#include <math.h>
 
 #include "../constants.hpp"
 #include "../utils.hpp"

@@ -53,9 +53,9 @@ void Logic::update()
 	for (auto reference : sweepers)
 	{
 		Sweeper& sweeper = reference.get();
-		Vector sweeper_p = sweeper.get();
+		Vector& sweeper_p = sweeper.get();
 
-		Mine& closest_mine = mines[0];
+		Mine closest_mine = mines[0];
 		Vector mine_p = closest_mine.get();
 
 		float min_distance = (mine_p - sweeper_p).distance();
@@ -73,13 +73,8 @@ void Logic::update()
 			if (distance < HIT_DISTANCE)
 			{
 				mine.new_position();
-				if (mine.is_avoid()) {
-					sweeper.get_brain().increase_fitness(-10);
-				}
-				else 
-				{
-					sweeper.get_brain().increase_fitness(1);
-				}
+				if (mine.is_avoid())  sweeper.get_brain().increase_fitness(-10);
+				else sweeper.get_brain().increase_fitness(1);
 			}
 			else if (distance < min_distance)
 			{
@@ -105,7 +100,7 @@ void Logic::update()
 		else if (sweeper_p.x < -10) sweeper_p.x = SCREEN_WIDTH;
 		if (sweeper_p.y > SCREEN_HEIGHT) sweeper_p.y = -10;
 		else if (sweeper_p.y < -10) sweeper_p.y = SCREEN_HEIGHT;
-		sweeper.set(sweeper_p);
+		//sweeper.set(sweeper_p);
 	}
 
 	/*if (ticks2++ > 250)

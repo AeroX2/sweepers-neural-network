@@ -15,12 +15,12 @@ class Sweeper
 	public:
 		static Sweeper* create(Vector p, Brain brain);
 		virtual ~Sweeper() {};
+
 		virtual void update(Mine mine);
 		virtual void draw(SDL_Renderer* renderer);
 		void new_position();
 
 		Vector& get();
-		void set(Vector p);
 		Brain& get_brain();
 		void set_brain(Brain b);
 		bool is_best();

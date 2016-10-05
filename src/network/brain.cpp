@@ -27,6 +27,18 @@ Brain::Brain()
 
 Matrix Brain::update(Matrix other_matrix)
 {
+	struct Temp
+	{
+		static float check(float f)
+		{ 
+			//TODO Can f be less than 0?
+			//cout << f << endl;
+			//fabs(f+1) because of -1 bias
+			if ((f < -1 || f > 1) && fabs(f+1) > 0.001) throw runtime_error("Input matrix is not normalised"); 
+			return f;
+		}
+	};
+	other_matrix.apply(Temp::check);
 	for (Matrix matrix : genes)
 	{
 		other_matrix = matrix.multiply(other_matrix);
@@ -42,8 +54,8 @@ void Brain::mutate()
 	{
 		struct Temp
 		{
-			static float random(float f) { 
-				return (Utils::random_normalised() < MUTATION_CHANCE) ? f + (Utils::random_clamped() * MAX_PERTURB) : f; }
+			static float random(float f) { return (Utils::random_normalised() < MUTATION_CHANCE) ? 
+				                                   f + (Utils::random_clamped() * MAX_PERTURB) : f; }
 		};
 		matrix.apply(Temp::random);
 	}

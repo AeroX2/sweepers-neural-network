@@ -22,7 +22,7 @@ class Logic
 		void update();
 		void draw(SDL_Renderer* renderer);
 	private:
-		vector<reference_wrapper<Sweeper> > sweepers;
+		vector<reference_wrapper<Sweeper>> sweepers;
 		vector<Mine> mines;
 		int ticks;
 		int ticks2;

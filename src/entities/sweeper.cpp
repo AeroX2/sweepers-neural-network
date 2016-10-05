@@ -17,16 +17,27 @@ Sweeper::Sweeper(Vector p, Brain brain)
 
 void Sweeper::update(Mine mine)
 {
-	Vector normalised_vector = (p - mine.get()).normalise();
+	Vector normalised_player = get();
+	Vector normalised_mine = mine.get();
+
+	Vector normalised_minus = (p - mine.get()).normalise();
 	Vector normalised_velocity = v;
 
-	Matrix matrix = Matrix(1,6);
-	matrix.set(0,0,normalised_vector.x); 
-	matrix.set(0,1,normalised_vector.y);
+	normalised_player.x = (normalised_player.x + 10) / (SCREEN_WIDTH + 10);
+	normalised_player.y = (normalised_player.y + 10) / (SCREEN_HEIGHT + 10);
+
+	normalised_mine.x = (normalised_mine.x) / (SCREEN_WIDTH);
+	normalised_mine.y = (normalised_mine.y) / (SCREEN_HEIGHT);
+
+	Matrix matrix = Matrix(1,8);
+	matrix.set(0,0,normalised_minus.x); 
+	matrix.set(0,1,normalised_minus.y);
 	matrix.set(0,2,normalised_velocity.x);
 	matrix.set(0,3,normalised_velocity.y);
-	matrix.set(0,4,mine.is_avoid());
-	matrix.set(0,5,-1.0); //faster than add_bias (probably)
+	matrix.set(0,4,normalised_player.x);
+	matrix.set(0,5,normalised_player.y);
+	matrix.set(0,6,mine.is_avoid());
+	matrix.set(0,7,-1.0); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
 
 	if (output.size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
@@ -74,11 +85,6 @@ void Sweeper::new_position()
 Vector& Sweeper::get()
 {
 	return p;
-}
-
-void Sweeper::set(Vector p)
-{
-	this->p = p;
 }
 
 Brain& Sweeper::get_brain()
