@@ -10,16 +10,16 @@ vector<Brain> Controller::epoch(vector<Brain> population, Control_Sweeper contro
 	sort(population.begin(), population.end(), Controller::compare_brains);
 
     //Average fitness
-	int total_fitness = 0;
-	int worst_fitness = population[0].get_fitness();
-	int best_fitness = 0;
+	float total_fitness = 0;
+	float worst_fitness = population[0].get_fitness();
+	float best_fitness = 0;
 	for (Brain brain : population)
 	{
 		total_fitness += brain.get_fitness(); 
-		best_fitness = max(best_fitness, brain.get_fitness());
-		worst_fitness = min(worst_fitness, brain.get_fitness());
+		best_fitness = fmax(best_fitness, brain.get_fitness());
+		worst_fitness = fmin(worst_fitness, brain.get_fitness());
 	}
-	float average_fitness = ((float)total_fitness / (float)population.size());
+	float average_fitness = total_fitness / population.size();
 
 	Controller::generation += 1;
 	cout << "Generation: " << Controller::generation << endl;
@@ -28,7 +28,7 @@ vector<Brain> Controller::epoch(vector<Brain> population, Control_Sweeper contro
 	cout << "Max fitness: " << best_fitness << endl;
 	Plotter::add_point(0, average_fitness);
 	Plotter::add_point(1, best_fitness);
-	Plotter::add_point(2, control.get_fitness());
+	//Plotter::add_point(2, control.get_fitness());
 
 	vector<Brain> new_population = vector<Brain>();
 

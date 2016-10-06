@@ -19,14 +19,13 @@ class Brain
 		void combine_two_point(Brain other_brain, int index1, int index2);
 
 		vector<Matrix>& get_genes();
-		int get_fitness();
-		void set_fitness(int fitness);
-		void increase_fitness(int fitness);
+		float& get_fitness();
+		void set_fitness(float fitness);
 
 		vector<float> random_array(int length);
 	private:
 		vector<Matrix> genes;
-		int fitness;
+		float fitness;
 };
 
 #endif

@@ -26,7 +26,7 @@ class Logic
 		vector<Mine> mines;
 		int ticks;
 		int ticks2;
-		int max_fitness;
+		float max_fitness;
 
 		Control_Sweeper* control_sweeper = NULL;
 		Sweeper* best_sweeper = NULL;

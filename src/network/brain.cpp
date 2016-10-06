@@ -112,11 +112,11 @@ void Brain::combine_two_point(Brain other_brain, int index1, int index2)
 		if (size > index1 && !first_cut)
 		{
 			index1 -= size - matrix.size();
-			index1 = floor((double) index1 / matrix.get_width());
+			index1 = floor((float) index1 / matrix.get_width());
 
 			int temp_index2 = index2 - (size - matrix.size());
 			temp_index2 = min(temp_index2, size-1);
-			temp_index2 = floor((double) temp_index2 / matrix.get_width());
+			temp_index2 = floor((float) temp_index2 / matrix.get_width());
 
 			for (int y = index1; y <= temp_index2; y++)
 			{
@@ -134,7 +134,7 @@ void Brain::combine_two_point(Brain other_brain, int index1, int index2)
 			else if (!second_cut)
 			{
 				index2 -= size - matrix.size();
-				index2 = floor((double) index2 / matrix.get_width());
+				index2 = floor((float) index2 / matrix.get_width());
 				for (int y = 0; y <= index2; y++)
 				{
 					for (int x = 0; x < matrix.get_width()-1; x++)
@@ -153,19 +153,14 @@ vector<Matrix>& Brain::get_genes()
 	return genes;
 }
 
-int Brain::get_fitness()
+float& Brain::get_fitness()
 {
 	return fitness;
 }
 
-void Brain::set_fitness(int fitness)
+void Brain::set_fitness(float fitness)
 {
 	this->fitness = fitness;
-}
-
-void Brain::increase_fitness(int fitness)
-{
-	this->fitness += fitness;
 }
 
 vector<float> Brain::random_array(int length)

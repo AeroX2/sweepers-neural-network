@@ -10,6 +10,7 @@ Logic::Logic()
 	for (int i = 0; i < MINE_LEN; i++)
 	{
 		Mine new_mine = Mine();
+		if (i < MINE_LEN / 2) new_mine.set_avoid(true);
 		mines.push_back(new_mine);
 	}
 
@@ -73,8 +74,8 @@ void Logic::update()
 			if (distance < HIT_DISTANCE)
 			{
 				mine.new_position();
-				if (mine.is_avoid())  sweeper.get_brain().increase_fitness(-10);
-				else sweeper.get_brain().increase_fitness(1);
+				if (mine.is_avoid()) sweeper.get_brain().get_fitness() *= 0.5;
+				else sweeper.get_brain().get_fitness() += 1.0;
 			}
 			else if (distance < min_distance)
 			{

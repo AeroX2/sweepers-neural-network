@@ -29,15 +29,13 @@ void Sweeper::update(Mine mine)
 	normalised_mine.x = (normalised_mine.x) / (SCREEN_WIDTH);
 	normalised_mine.y = (normalised_mine.y) / (SCREEN_HEIGHT);
 
-	Matrix matrix = Matrix(1,8);
+	Matrix matrix = Matrix(1,6);
 	matrix.set(0,0,normalised_minus.x); 
 	matrix.set(0,1,normalised_minus.y);
 	matrix.set(0,2,normalised_velocity.x);
 	matrix.set(0,3,normalised_velocity.y);
-	matrix.set(0,4,normalised_player.x);
-	matrix.set(0,5,normalised_player.y);
-	matrix.set(0,6,mine.is_avoid());
-	matrix.set(0,7,-1.0); //faster than add_bias (probably)
+	matrix.set(0,4,mine.is_avoid() ? -1 : 1);
+	matrix.set(0,5,-1.0); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
 
 	if (output.size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");

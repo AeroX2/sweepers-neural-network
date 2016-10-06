@@ -7,8 +7,7 @@ Mine::Mine()
 	rectangle.w = 5;
 	rectangle.h = 5;
 
-	if (rand() % 100 < 85) avoid = false;
-	else avoid = false;
+	avoid = false;
 }
 
 void Mine::draw(SDL_Renderer* renderer)
@@ -26,9 +25,6 @@ void Mine::new_position()
 
 	this->rectangle.x = p.x;
 	this->rectangle.y = p.y;
-
-	if (rand() % 100 < 85) avoid = false;
-	else avoid = false;
 }
 
 Vector& Mine::get()
@@ -39,4 +35,9 @@ Vector& Mine::get()
 bool Mine::is_avoid()
 {
 	return avoid;
+}
+
+void Mine::set_avoid(bool avoid)
+{
+	this->avoid = avoid;
 }
