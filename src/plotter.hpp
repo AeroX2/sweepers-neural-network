@@ -35,5 +35,4 @@ class Plotter
 		static float average;
 };
 
-void draw_font(string message, int x, int y);
 #endif

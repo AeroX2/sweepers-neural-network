@@ -38,6 +38,11 @@ void Main::run()
 					cout << "F key pressed\n";
 					fast = !fast;
 				}
+				else if (e.key.keysym.sym == SDLK_b) 
+				{
+					cout << "B key pressed\n";
+					best = !best;
+				}
 			}
 		}
 		logic.update();
@@ -109,7 +114,7 @@ void Main::destroy()
 	SDL_Quit();
 }
 
-void Main::draw_font(string message, int x, int y)
+void Main::draw_font_p(string message, int x, int y)
 {
 	SDL_Color color = {BLACK, 255};
 
@@ -137,9 +142,19 @@ void Main::draw_font(string message, int x, int y)
 	SDL_DestroyTexture(texture);
 }
 
-Main Main::get_instance()
+Main& Main::get_instance()
 {
 	static Main main; 
 	return main;
+}
+
+void Main::draw_font(string message, int x, int y)
+{
+	get_instance().draw_font_p(message, x, y);
+}
+
+bool Main::is_best()
+{
+	return best;
 }
 

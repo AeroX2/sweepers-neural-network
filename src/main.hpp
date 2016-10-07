@@ -14,14 +14,16 @@ using namespace std;
 class Main
 {
 	public:
-		static Main get_instance();
+		static Main& get_instance();
+		static void draw_font(string message, int x, int y);
+		static bool is_best();
 	private:
 		Main();
 
 		bool init();
 		void run();
 		void destroy();
-		void draw_font(string message, int x, int y);
+		void draw_font_p(string message, int x, int y);
 
 		SDL_Window* window;
 		SDL_Renderer* renderer;

@@ -49,8 +49,8 @@ void Plotter::draw(SDL_Renderer* renderer)
 		}
 	}
 
-	draw_font("Generation: " + to_string(points[0].size()-1), 10, 10);
-	draw_font("Current max fitness: " + to_string(largest_y), 10, 30);
+	//draw_font("Generation: " + to_string(points[0].size()-1), 10, 10);
+	//draw_font("Current max fitness: " + to_string(largest_y), 10, 30);
 
 	dirty = false;
 }
