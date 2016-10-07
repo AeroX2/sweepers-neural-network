@@ -37,7 +37,6 @@ Logic::Logic()
 	best_sweeper = &sweepers[0].get();
 
 	ticks = 0;
-	ticks2 = 0;
 	max_fitness = 0;
 }
 
@@ -104,15 +103,6 @@ void Logic::update()
 		//sweeper.set(sweeper_p);
 	}
 
-	/*if (ticks2++ > 250)
-	{
-		ticks2 = 0;
-		for (Mine& mine : mines)
-		{
-			if (mine.is_avoid()) mine.new_position();
-		}
-	}*/
-
 	if (ticks++ > EPOCH_TICK_OVER)
 	{
 		ticks = 0;
@@ -145,9 +135,13 @@ void Logic::draw(SDL_Renderer* renderer)
 	for (auto reference : sweepers) 
 	{
 		Sweeper& sweeper = reference.get();	
-		sweeper.draw(renderer);
+		if (Main::is_best()) sweeper.draw(renderer);
 	}
 
 	draw_font("Current max fitness: " + to_string(best_sweeper->get_brain().get_fitness()), 10, 10);
-	//draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
+	//draw_font("Current worst fitness: " + to_string(worst_sweeper->get_brain().get_fitness()), 10, 30);
+	//draw_font("Current average fitness: " + to_string(average_sweeper->get_brain().get_fitness()), 10, 50);
+	//draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 70);
+	//draw_font("Press F to fast forward", 10, 70);
+	//draw_font("Press B to see only the best", 10, 90);
 }

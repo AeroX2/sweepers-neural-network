@@ -25,12 +25,10 @@ class Logic
 		vector<reference_wrapper<Sweeper>> sweepers;
 		vector<Mine> mines;
 		int ticks;
-		int ticks2;
 		float max_fitness;
 
 		Control_Sweeper* control_sweeper = NULL;
 		Sweeper* best_sweeper = NULL;
 };
 
-void draw_font(string message, int x, int y);
 #endif

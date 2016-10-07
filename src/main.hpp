@@ -11,17 +11,26 @@
 
 using namespace std;
 
-SDL_Window* window = NULL;
-SDL_Renderer* renderer = NULL;
-TTF_Font* font = NULL;
+class Main
+{
+	public:
+		static Main get_instance();
+	private:
+		Main();
 
-bool running = true;
-bool fast = false;
-Logic logic;
+		bool init();
+		void run();
+		void destroy();
+		void draw_font(string message, int x, int y);
 
-bool init();
-void destroy();
+		SDL_Window* window;
+		SDL_Renderer* renderer;
+		TTF_Font* font;
+		Logic logic;
 
-void draw_font(string message, int x, int y);
+		bool running;
+		bool fast;
+		bool best;
+};
 
 #endif

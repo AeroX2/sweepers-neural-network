@@ -2,6 +2,23 @@
 
 int main(void)
 {
+	Main::get_instance().run();
+	return 0;
+}
+
+Main::Main()
+{
+	window = NULL;
+	renderer = NULL;
+	font = NULL;
+
+	running = true;
+	fast = false;
+	best = false;
+}
+
+void Main::run()
+{
 	if (init()) running = false;
 	if (!running) cout << "Error in initialising window\n";
 
@@ -53,16 +70,17 @@ int main(void)
 	}
 
 	destroy();	
-	return 0;
 }
 
-bool init()
+bool Main::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) return true;
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
 	if (renderer == NULL) return true;
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	if (TTF_Init() < 0) return true;
 	font = TTF_OpenFont("arial.ttf", 12);
@@ -83,7 +101,7 @@ bool init()
 	return false;
 }
 
-void destroy()
+void Main::destroy()
 {	
 	SDL_DestroyWindow(window);
 	TTF_CloseFont(font);
@@ -91,7 +109,7 @@ void destroy()
 	SDL_Quit();
 }
 
-void draw_font(string message, int x, int y)
+void Main::draw_font(string message, int x, int y)
 {
 	SDL_Color color = {BLACK, 255};
 
@@ -117,5 +135,11 @@ void draw_font(string message, int x, int y)
 
 	SDL_FreeSurface(text_surface);
 	SDL_DestroyTexture(texture);
+}
+
+Main Main::get_instance()
+{
+	static Main main; 
+	return main;
 }
 

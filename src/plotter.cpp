@@ -26,24 +26,24 @@ void Plotter::draw(SDL_Renderer* renderer)
 	for (size_t id = 0; id < points.size(); id++) 
 	{	
 		int x = 0;
+		int point_1;
+		int point_2;
+
+		SDL_SetRenderDrawColor(renderer, colors[id].r, colors[id].g, colors[id].b, 50);
 		for (size_t point = 0; point < points[id].size()-1; point++)
 		{
-			SDL_SetRenderDrawColor(renderer, colors[id].r, colors[id].g, colors[id].b, 255);
-			int point_1 = round(SCREEN_HEIGHT - points[id][point] * scale_y);
-			int point_2 = round(SCREEN_HEIGHT - points[id][point+1] * scale_y);
+			point_1 = round(SCREEN_HEIGHT - points[id][point] * scale_y);
+			point_2 = round(SCREEN_HEIGHT - points[id][point+1] * scale_y);
 			SDL_RenderDrawLine(renderer, x * scale_x, point_1, (x + step_x) * scale_x, point_2);
 			x += step_x;
 		}
-	}
 
-	for (size_t id = 0; id < average_points.size(); id++) 
-	{	
-		int x = 0;
+		x = 0;
+		SDL_SetRenderDrawColor(renderer, colors[id].r, colors[id].g, colors[id].b, 255);
 		for (size_t point = 0; point < average_points[id].size()-1; point++)
 		{
-			SDL_SetRenderDrawColor(renderer, GREEN, 255);
-			int point_1 = round(SCREEN_HEIGHT - average_points[id][point] * scale_y);
-			int point_2 = round(SCREEN_HEIGHT - average_points[id][point+1] * scale_y);
+			point_1 = round(SCREEN_HEIGHT - average_points[id][point] * scale_y);
+			point_2 = round(SCREEN_HEIGHT - average_points[id][point+1] * scale_y);
 			SDL_RenderDrawLine(renderer, x * scale_x, point_1, (x + step_x) * scale_x, point_2);
 			x += step_x;
 		}
