@@ -1,10 +1,19 @@
 #include "main.hpp"
 
-int main(void)
+//Windows MSYS
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+int WinMain()
 {
 	Main::get_instance().run();
 	return 0;
 }
+#else
+int main()
+{
+	Main::get_instance().run();
+	return 0;
+}
+#endif
 
 Main::Main()
 {
@@ -21,6 +30,7 @@ void Main::run()
 {
 	if (init()) running = false;
 	if (!running) cout << "Error in initialising window\n";
+	logic.init();
 
 	double current_time, last_time, delta;
 	while (running)
@@ -91,17 +101,13 @@ bool Main::init()
 	font = TTF_OpenFont("arial.ttf", 12);
 	if (font == NULL) return true;
 
-	Plotter::init(10);
-	Plotter::new_line(BLACK);
-	Plotter::new_line(RED);
-	Plotter::new_line(PURPLE);
-
 	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
 	else cout << "Failed to read from file, using defaults\n";
 
-	cout << "Mutation " << MUTATION_CHANCE << endl;
-	cout << "Combine " << COMBINE_CHANCE << endl;
- 	cout << "Max perturb " << MAX_PERTURB << endl;
+	Plotter::init(10);
+	Plotter::new_line(BLACK);
+	Plotter::new_line(RED);
+	if (CONTROL_SWEEPER) Plotter::new_line(PURPLE);
 
 	return false;
 }

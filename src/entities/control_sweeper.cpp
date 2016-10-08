@@ -10,27 +10,29 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 	rectangle.h = 10;
 
 	rotation = 0.0;
-	speed = CONTROL_SWEEPER_SPEED;
-
 	fitness = 0;
 }
 
 void Control_Sweeper::update(Mine mine) 
 {
-	Vector temp = mine.get() - p;
-	rotation = atan2(temp.y, temp.x);
+	Vector temp = p - mine.get();
+	float mine_rotation = atan2(temp.y, temp.x);
+	float x = mine_rotation - rotation;
 
-	v.x = cos(rotation);
-	v.y = sin(rotation);
+	float ltrack = 0;
+	float rtrack = 0;
+	if (fabs(x) < 5)
+	{
+		ltrack = 1;
+		rtrack = 1;
+	}
+	else
+	{
+		ltrack = cos(x);
+		rtrack = sin(x);
+	}
 
-	/*if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
-	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
-	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
-	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; */
-
-	p += v * speed;
-	rectangle.x = round(p.x);
-	rectangle.y = round(p.y);
+	update_tank(ltrack, rtrack);
 }
 
 void Control_Sweeper::draw(SDL_Renderer* renderer) 

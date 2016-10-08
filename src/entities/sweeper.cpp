@@ -11,11 +11,18 @@ Sweeper::Sweeper(Vector p, Brain brain)
 	rectangle.h = 10;
 
 	rotation = 0.0;
-	speed = 50.0;
 	best = false;
 }
 
 void Sweeper::update(Mine mine)
+{
+	Matrix output = update_brain(mine);
+	float ltrack = output.get(0,0);
+	float rtrack = output.get(0,1);
+	update_tank(ltrack, rtrack);
+}
+
+Matrix Sweeper::update_brain(Mine mine)
 {
 	Vector normalised_player = get();
 	Vector normalised_mine = mine.get();
@@ -39,9 +46,11 @@ void Sweeper::update(Mine mine)
 	Matrix output = brain.update(matrix);
 
 	if (output.size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");
+	return output;
+}
 
-	float ltrack = output.get(0,0);
-	float rtrack = output.get(0,1);
+void Sweeper::update_tank(float ltrack, float rtrack)
+{
 	float rotation_force = ltrack - rtrack; 
 
 	if (rotation_force > MAX_SWEEPER_TURN_RATE) rotation_force = MAX_SWEEPER_TURN_RATE;

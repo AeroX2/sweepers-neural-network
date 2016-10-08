@@ -10,6 +10,6 @@ function test {
     return $status
 }
 
-test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles"
+test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON"
 test /c/MinGW/msys/1.0/bin/make.exe
-test neural_network.exe
+test NeuralNetwork.exe

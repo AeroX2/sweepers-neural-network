@@ -22,6 +22,9 @@ class Sweeper
 		virtual ~Sweeper() {};
 
 		virtual void update(Mine mine);
+		Matrix update_brain(Mine mine);
+		void update_tank(float ltrack, float rtrack);
+
 		virtual void draw(SDL_Renderer* renderer);
 		void new_position();
 
@@ -36,7 +39,6 @@ class Sweeper
 		virtual void set_fitness(float fitness);
 	protected:
 		Sweeper(Vector p, Brain brain);
-		double speed;
 		double rotation;
 		bool best;
 		Vector v;

@@ -6,8 +6,20 @@ Logic::Logic()
 	//Seed random number generator
 	srand(time(NULL));	
 
-	int rand_x = 0;
-	int rand_y = 0;
+	ticks = 0;
+	max_fitness = 0;
+}
+
+Logic::~Logic()
+{
+	for (auto reference : sweepers)
+	{
+		delete &reference.get();
+	}
+}
+
+void Logic::init()
+{
 	for (int i = 0; i < MINE_LEN; i++)
 	{
 		Mine new_mine = Mine();
@@ -15,8 +27,11 @@ Logic::Logic()
 		mines.push_back(new_mine);
 	}
 
+	int rand_x;
+	int rand_y;
 	Vector p;
 	Brain new_brain;
+
 	for (int i = 0; i < POPULATION; i++)
 	{
 		rand_x = rand() % SCREEN_WIDTH;
@@ -33,21 +48,15 @@ Logic::Logic()
 	p = Vector(rand_x, rand_y);
 	new_brain = Brain();
 
-	Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);
-	control_sweeper = temp;	
-	sweepers.push_back(reference_wrapper<Sweeper>(*temp));
-	best_sweeper = &sweepers[0].get();
-
-	ticks = 0;
-	max_fitness = 0;
-}
-
-Logic::~Logic()
-{
-	for (auto reference : sweepers)
+	control_sweeper = NULL;
+	if (CONTROL_SWEEPER)
 	{
-		delete &reference.get();
+		Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);
+		control_sweeper = temp;	
+		sweepers.push_back(reference_wrapper<Sweeper>(*temp));
 	}
+
+	best_sweeper = &sweepers[0].get();
 }
 
 void Logic::update()
@@ -117,10 +126,10 @@ void Logic::update()
 			Sweeper& sweeper = reference.get();	
 			population.push_back(sweeper.get_brain());
 		}
-		population = Controller::epoch(population, *control_sweeper);
+		population = Controller::epoch(population, control_sweeper);
 
 		//-1 because of Control_Sweeper doesn't deserve a brain
-		for (size_t i = 0; i < sweepers.size()-1; i++) 
+		for (size_t i = 0; i < sweepers.size() - CONTROL_SWEEPER; i++) 
 		{
 			Sweeper& sweeper = sweepers[i].get();
 			sweeper.set_brain(population[i]);
@@ -129,7 +138,7 @@ void Logic::update()
 			sweeper.new_position();
 		}
 		for (Mine& mine : mines) mine.new_position();
-		control_sweeper->set_fitness(0);
+		if (CONTROL_SWEEPER) control_sweeper->set_fitness(0);
 	}
 }
 
@@ -145,7 +154,7 @@ void Logic::draw(SDL_Renderer* renderer)
 	Main::draw_font("Current max fitness: " + to_string(best_sweeper->get_fitness()), 10, 10);
 	//Main::draw_font("Current worst fitness: " + to_string(worst_sweeper->get_fitness()), 10, 30);
 	//Main::draw_font("Current average fitness: " + to_string(average_sweeper->get_fitness()), 10, 50);
-	Main::draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
+	if (CONTROL_SWEEPER) Main::draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
 	Main::draw_font("Press F to fast forward", 10, 70);
 	Main::draw_font("Press B to see only the best", 10, 90);
 }

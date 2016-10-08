@@ -30,6 +30,7 @@ class Logic
 	public:
 		Logic();
 		~Logic();
+		void init();
 		void update();
 		void draw(SDL_Renderer* renderer);
 	private:
