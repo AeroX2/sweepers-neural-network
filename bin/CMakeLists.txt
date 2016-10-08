@@ -1,9 +1,20 @@
 cmake_minimum_required(VERSION 2.8.9)
 project (neural_network)
 
-#set(CMAKE_CXX_COMPILER /usr/bin/clang++)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -fsanitize=undefined")
+option(debug "debug" OFF)
+if (WIN32)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+else()
+	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
+endif()
+
+if (debug)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=undefined")
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/../cmake")
 
 #set(SDL2_INCLUDE_DIR "H:\\.Desktop\\SDL2\\x86_64-w64-mingw32\\include")

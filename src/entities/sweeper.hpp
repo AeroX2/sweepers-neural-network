@@ -28,8 +28,12 @@ class Sweeper
 		Vector& get();
 		Brain& get_brain();
 		void set_brain(Brain b);
+
 		bool is_best();
 		void set_best(bool best);
+
+		virtual float& get_fitness();
+		virtual void set_fitness(float fitness);
 	protected:
 		Sweeper(Vector p, Brain brain);
 		double speed;

@@ -21,10 +21,10 @@ void Mine::new_position()
 {
 	int rand_x = rand() % SCREEN_WIDTH;
 	int rand_y = rand() % SCREEN_HEIGHT;
-	this->p = Vector(rand_x, rand_y);
+	p = Vector(rand_x, rand_y);
 
-	this->rectangle.x = p.x;
-	this->rectangle.y = p.y;
+	rectangle.x = p.x;
+	rectangle.y = p.y;
 }
 
 Vector& Mine::get()

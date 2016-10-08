@@ -28,7 +28,7 @@ vector<Brain> Controller::epoch(vector<Brain> population, Control_Sweeper contro
 	cout << "Max fitness: " << best_fitness << endl;
 	Plotter::add_point(0, average_fitness);
 	Plotter::add_point(1, best_fitness);
-	//Plotter::add_point(2, control.get_fitness());
+	Plotter::add_point(2, control.get_fitness(), false);
 
 	vector<Brain> new_population = vector<Brain>();
 

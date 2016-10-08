@@ -9,7 +9,7 @@ using namespace std;
 class Vector
 {
 	public:
-		Vector(double x=0,double y=0);
+		Vector(double x=0, double y=0);
 
 		Vector operator+(const Vector& rhs);
 		Vector operator-(const Vector& rhs);

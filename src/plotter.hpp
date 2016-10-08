@@ -17,7 +17,7 @@ class Plotter
 		static void draw(SDL_Renderer* renderer);
 
 		static void new_line(unsigned char r, unsigned char g, unsigned char b);
-		static void add_point(int id, float y);
+		static void add_point(int id, float y, bool ignore_largest=true);
 		static void resize(float blub);
 		static bool is_dirty();
 	private:

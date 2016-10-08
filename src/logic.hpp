@@ -23,9 +23,6 @@
 #include "network/brain.hpp"
 #include "network/matrix.hpp"
 
-class Main;
-struct SDL_Renderer;
-
 using namespace std;
 
 class Logic
@@ -41,8 +38,8 @@ class Logic
 		int ticks;
 		float max_fitness;
 
-		Control_Sweeper* control_sweeper = NULL;
-		Sweeper* best_sweeper = NULL;
+		Control_Sweeper* control_sweeper;
+		Sweeper* best_sweeper;
 };
 
 #endif

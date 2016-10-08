@@ -1,4 +1,5 @@
 #include "plotter.hpp"
+#include "main.hpp"
 
 vector<vector<float>> Plotter::points;
 vector<vector<float>> Plotter::average_points;
@@ -22,6 +23,9 @@ void Plotter::draw(SDL_Renderer* renderer)
 	int y = round(SCREEN_HEIGHT - largest_y * scale_y);
 	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 	SDL_RenderDrawLine(renderer, 0, y, SCREEN_WIDTH, y);
+
+	Main::draw_font("Generation: " + to_string(points[0].size()-1), 10, 10);
+	Main::draw_font("Current max fitness: " + to_string(largest_y), 10, 30);
 
 	for (size_t id = 0; id < points.size(); id++) 
 	{	
@@ -47,20 +51,20 @@ void Plotter::draw(SDL_Renderer* renderer)
 			SDL_RenderDrawLine(renderer, x * scale_x, point_1, (x + step_x) * scale_x, point_2);
 			x += step_x;
 		}
-	}
 
-	//draw_font("Generation: " + to_string(points[0].size()-1), 10, 10);
-	//draw_font("Current max fitness: " + to_string(largest_y), 10, 30);
+		Main::draw_font("Line " + to_string(id) + ": " + to_string(points[id].back()), 10, 50+id*40);
+		Main::draw_font("Rolling average " + to_string(id) + ": " + to_string(average_points[id].back()), 10, 70+id*40);
+	}
 
 	dirty = false;
 }
 
-void Plotter::add_point(int id, float y)
+void Plotter::add_point(int id, float y, bool ignore_largest)
 {
 	points[id].push_back(y);
 	if (y * scale_y >= SCREEN_HEIGHT) scale_y /= 2;
 	if (points[id].size() * step_x * scale_x >= SCREEN_WIDTH) scale_x /= 2;
-	if (y > largest_y) largest_y = y;
+	if (ignore_largest && y > largest_y) largest_y = y;
 
 	averages[id] -= points[id][max((int) points[id].size() - ROLLING_AVERAGE,0)];
 	averages[id] += y;

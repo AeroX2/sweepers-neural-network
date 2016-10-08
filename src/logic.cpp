@@ -1,4 +1,5 @@
 #include "logic.hpp"
+#include "main.hpp"
 
 Logic::Logic()
 {
@@ -26,6 +27,7 @@ Logic::Logic()
 		sweepers.push_back(reference_wrapper<Sweeper>(*new_sweeper));
 	}
 
+	//TODO Move rand()?
 	rand_x = rand() % SCREEN_WIDTH;
 	rand_y = rand() % SCREEN_HEIGHT;
 	p = Vector(rand_x, rand_y);
@@ -33,7 +35,7 @@ Logic::Logic()
 
 	Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);
 	control_sweeper = temp;	
-	//sweepers.push_back(reference_wrapper<Sweeper>(*temp));
+	sweepers.push_back(reference_wrapper<Sweeper>(*temp));
 	best_sweeper = &sweepers[0].get();
 
 	ticks = 0;
@@ -73,8 +75,8 @@ void Logic::update()
 			if (distance < HIT_DISTANCE)
 			{
 				mine.new_position();
-				if (mine.is_avoid()) sweeper.get_brain().get_fitness() *= 0.5;
-				else sweeper.get_brain().get_fitness() += 1.0;
+				if (mine.is_avoid()) sweeper.get_fitness() *= 0.5;
+				else sweeper.get_fitness() += 1.0;
 			}
 			else if (distance < min_distance)
 			{
@@ -82,6 +84,8 @@ void Logic::update()
 				closest_mine = mine;
 			}	
 		}
+
+		//Control sweeper has a separate fitness to the brain
 		if (sweeper.get_brain().get_fitness() > max_fitness)
 		{
 			max_fitness = sweeper.get_brain().get_fitness();
@@ -116,16 +120,16 @@ void Logic::update()
 		population = Controller::epoch(population, *control_sweeper);
 
 		//-1 because of Control_Sweeper doesn't deserve a brain
-		for (size_t i = 0; i < sweepers.size(); i++) 
+		for (size_t i = 0; i < sweepers.size()-1; i++) 
 		{
 			Sweeper& sweeper = sweepers[i].get();
 			sweeper.set_brain(population[i]);
-			sweeper.get_brain().set_fitness(0);
+			sweeper.set_fitness(0);
 			sweeper.set_best(false);
 			sweeper.new_position();
 		}
 		for (Mine& mine : mines) mine.new_position();
-		//control_sweeper->set_fitness(0);
+		control_sweeper->set_fitness(0);
 	}
 }
 
@@ -135,14 +139,13 @@ void Logic::draw(SDL_Renderer* renderer)
 	for (auto reference : sweepers) 
 	{
 		Sweeper& sweeper = reference.get();	
-		//if (Main::is_best()) sweeper.draw(renderer);
-		sweeper.draw(renderer);
+		if (!Main::is_best() || sweeper.is_best()) sweeper.draw(renderer);
 	}
 
-	//Main::draw_font("Current max fitness: " + to_string(best_sweeper->get_brain().get_fitness()), 10, 10);
-	//Main::draw_font("Current worst fitness: " + to_string(worst_sweeper->get_brain().get_fitness()), 10, 30);
-	//Main::draw_font("Current average fitness: " + to_string(average_sweeper->get_brain().get_fitness()), 10, 50);
-	//Main::draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 70);
-	//Main::draw_font("Press F to fast forward", 10, 70);
-	//Main::draw_font("Press B to see only the best", 10, 90);
+	Main::draw_font("Current max fitness: " + to_string(best_sweeper->get_fitness()), 10, 10);
+	//Main::draw_font("Current worst fitness: " + to_string(worst_sweeper->get_fitness()), 10, 30);
+	//Main::draw_font("Current average fitness: " + to_string(average_sweeper->get_fitness()), 10, 50);
+	Main::draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
+	Main::draw_font("Press F to fast forward", 10, 70);
+	Main::draw_font("Press B to see only the best", 10, 90);
 }

@@ -17,11 +17,11 @@ class Main
 		static Main& get_instance();
 		static void draw_font(string message, int x, int y);
 		static bool is_best();
+		void run();
 	private:
 		Main();
 
 		bool init();
-		void run();
 		void destroy();
 		void draw_font_p(string message, int x, int y);
 

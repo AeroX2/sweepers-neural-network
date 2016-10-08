@@ -105,6 +105,16 @@ void Sweeper::set_best(bool best)
 	this->best = best;
 }
 
+float& Sweeper::get_fitness()
+{
+	return brain.get_fitness();
+}
+
+void Sweeper::set_fitness(float fitness)
+{
+	brain.set_fitness(fitness);
+}
+
 Sweeper* Sweeper::create(Vector p, Brain brain)
 {
 	return new Sweeper(p, brain);

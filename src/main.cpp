@@ -155,6 +155,6 @@ void Main::draw_font(string message, int x, int y)
 
 bool Main::is_best()
 {
-	return best;
+	return get_instance().best;
 }
 

@@ -20,20 +20,17 @@ void Control_Sweeper::update(Mine mine)
 	Vector temp = mine.get() - p;
 	rotation = atan2(temp.y, temp.x);
 
-	v.x = cos(rotation) * speed;
-	v.y = sin(rotation) * speed;
+	v.x = cos(rotation);
+	v.y = sin(rotation);
 
-	if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
+	/*if (v.x > MAX_SWEEPER_SPEED) v.x = MAX_SWEEPER_SPEED; 
 	else if (v.x < -MAX_SWEEPER_SPEED) v.x = -MAX_SWEEPER_SPEED; 
 	if (v.y > MAX_SWEEPER_SPEED) v.y = MAX_SWEEPER_SPEED; 
-	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; 
+	else if (v.y < -MAX_SWEEPER_SPEED) v.y = -MAX_SWEEPER_SPEED; */
 
-	p += v;
+	p += v * speed;
 	rectangle.x = round(p.x);
 	rectangle.y = round(p.y);
-
-	fitness += get_brain().get_fitness();
-	get_brain().set_fitness(0);
 }
 
 void Control_Sweeper::draw(SDL_Renderer* renderer) 
@@ -42,12 +39,12 @@ void Control_Sweeper::draw(SDL_Renderer* renderer)
 	SDL_RenderFillRect(renderer, &rectangle);
 }
 
-int Control_Sweeper::get_fitness()
+float& Control_Sweeper::get_fitness()
 {
-	return this->fitness;
+	return fitness;
 }
 
-void Control_Sweeper::set_fitness(int fitness)
+void Control_Sweeper::set_fitness(float fitness)
 {
 	this->fitness = fitness;
 }

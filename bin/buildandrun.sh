@@ -1,6 +1,7 @@
 #!/bin/sh
 
 function test {
+	echo $@
     "$@"
     local status=$?
     if [ $status -ne 0 ]; then
@@ -10,6 +11,12 @@ function test {
     return $status
 }
 
-test cmake .
+if [ "$1" == "debug" ]; then
+	debug="ON"
+else
+	debug="OFF"
+fi
+
+test cmake -Ddebug="$debug" .
 test make
 test ./neural_network
