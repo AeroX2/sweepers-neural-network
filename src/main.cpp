@@ -43,12 +43,12 @@ void Main::run()
 			if (e.type == SDL_QUIT) running = false;
 			if (e.type == SDL_KEYDOWN)
 			{
-				if (e.key.keysym.sym == SDLK_f) 
+				if (e.key.keysym.sym == SDLK_f)
 				{
 					cout << "F key pressed\n";
 					fast = !fast;
 				}
-				else if (e.key.keysym.sym == SDLK_b) 
+				else if (e.key.keysym.sym == SDLK_b)
 				{
 					cout << "B key pressed\n";
 					best = !best;
@@ -84,7 +84,7 @@ void Main::run()
 		}
 	}
 
-	destroy();	
+	destroy();
 }
 
 bool Main::init()
@@ -113,7 +113,7 @@ bool Main::init()
 }
 
 void Main::destroy()
-{	
+{
 	SDL_DestroyWindow(window);
 	TTF_CloseFont(font);
 	TTF_Quit();
@@ -132,7 +132,7 @@ void Main::draw_font_p(string message, int x, int y)
 	}
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surface);
-	if (texture == NULL) 
+	if (texture == NULL)
 	{
 		 cout << "Unable to create texture from rendered text\n";
 		 return;
@@ -150,7 +150,7 @@ void Main::draw_font_p(string message, int x, int y)
 
 Main& Main::get_instance()
 {
-	static Main main; 
+	static Main main;
 	return main;
 }
 

@@ -3,12 +3,8 @@
 
 #include <SDL2/SDL.h>
 
-//Windows MSYS
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	#include <cstdlib>
-#endif
-
 #include "../constants.hpp"
+#include "../utils.hpp"
 #include "vector.hpp"
 
 class Mine
@@ -18,6 +14,7 @@ class Mine
 		void draw(SDL_Renderer* renderer);
 		void new_position();
 		Vector& get();
+		SDL_Rect& get_rect();
 
 		bool is_avoid();
 		void set_avoid(bool avoid);

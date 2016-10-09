@@ -27,8 +27,8 @@ void Plotter::draw(SDL_Renderer* renderer)
 	Main::draw_font("Generation: " + to_string(points[0].size()-1), 10, 10);
 	Main::draw_font("Current max fitness: " + to_string(largest_y), 10, 30);
 
-	for (size_t id = 0; id < points.size(); id++) 
-	{	
+	for (size_t id = 0; id < points.size(); id++)
+	{
 		int x = 0;
 		int point_1;
 		int point_2;
@@ -70,7 +70,7 @@ void Plotter::add_point(int id, float y, bool ignore_largest)
 	averages[id] += y;
 	average_points[id].push_back(averages[id] / ROLLING_AVERAGE);
 
-	dirty = true;	
+	dirty = true;
 }
 
 void Plotter::new_line(unsigned char r, unsigned char g, unsigned char b)

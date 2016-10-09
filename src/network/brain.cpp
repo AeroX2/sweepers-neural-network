@@ -30,11 +30,11 @@ Matrix Brain::update(Matrix other_matrix)
 	struct Temp
 	{
 		static float check(float f)
-		{ 
+		{
 			//TODO Can f be less than 0?
-			//cout << f << endl;
+			//cout << f << '\n';
 			//fabs(f+1) because of -1 bias
-			if ((f < -1 || f > 1) && fabs(f+1) > 0.001) throw runtime_error("Input matrix is not normalised"); 
+			if ((f < -1 || f > 1) && fabs(f+1) > 0.001) throw runtime_error("Input matrix is not normalised");
 			return f;
 		}
 	};
@@ -54,7 +54,7 @@ void Brain::mutate()
 	{
 		struct Temp
 		{
-			static float random(float f) { return (Utils::random_normalised() < MUTATION_CHANCE) ? 
+			static float random(float f) { return (Utils::random_normalised() < MUTATION_CHANCE) ?
 				                                   f + (Utils::random_clamped() * MAX_PERTURB) : f; }
 		};
 		matrix.apply(Temp::random);
@@ -142,7 +142,7 @@ void Brain::combine_two_point(Brain other_brain, int index1, int index2)
 						matrix.set(x,y,other_matrix.get(x,y));
 					}
 				}
-				second_cut = true;	
+				second_cut = true;
 			}
 		}
 	}
@@ -171,5 +171,5 @@ vector<float> Brain::random_array(int length)
 		//new_vector.push_back(i);
 		new_vector.push_back(Utils::random_clamped());
 	}
-	return new_vector;	
+	return new_vector;
 }

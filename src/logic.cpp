@@ -3,9 +3,6 @@
 
 Logic::Logic()
 {
-	//Seed random number generator
-	srand(time(NULL));	
-
 	ticks = 0;
 	max_fitness = 0;
 }
@@ -34,17 +31,16 @@ void Logic::init()
 
 	for (int i = 0; i < POPULATION; i++)
 	{
-		rand_x = rand() % SCREEN_WIDTH;
-		rand_y = rand() % SCREEN_HEIGHT;
+		rand_x = Utils::random_range_int(0, SCREEN_WIDTH);
+		rand_y = Utils::random_range_int(0, SCREEN_HEIGHT);
 		p = Vector(rand_x, rand_y);
 		new_brain = Brain();
 		Sweeper* new_sweeper = Sweeper::create(p, new_brain);
 		sweepers.push_back(reference_wrapper<Sweeper>(*new_sweeper));
 	}
 
-	//TODO Move rand()?
-	rand_x = rand() % SCREEN_WIDTH;
-	rand_y = rand() % SCREEN_HEIGHT;
+	rand_x = Utils::random_range_int(0, SCREEN_WIDTH);
+	rand_y = Utils::random_range_int(0, SCREEN_HEIGHT);
 	p = Vector(rand_x, rand_y);
 	new_brain = Brain();
 
@@ -52,10 +48,12 @@ void Logic::init()
 	if (CONTROL_SWEEPER)
 	{
 		Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);
-		control_sweeper = temp;	
+		control_sweeper = temp;
 		sweepers.push_back(reference_wrapper<Sweeper>(*temp));
 	}
 
+	//TODO Multiple best sweepers
+	//TODO Worst and average sweepers?
 	best_sweeper = &sweepers[0].get();
 }
 
@@ -75,30 +73,30 @@ void Logic::update()
 		{
 			mine_p = mine.get();
 			float distance = (mine_p - sweeper_p).distance();
-			/*if (mine_p.x - 50 < sweeper_p.x && 
-				mine_p.x + 50 > sweeper_p.x && 
-				mine_p.y - 50 < sweeper_p.y && 
+			/*if (mine_p.x - 50 < sweeper_p.x &&
+				mine_p.x + 50 > sweeper_p.x &&
+				mine_p.y - 50 < sweeper_p.y &&
 				mine_p.y + 50 > sweeper_p.y)
 			{*/
-			//cout << "distance: " << distance << endl;
+			//cout << "distance: " << distance << '\n';
 			if (distance < HIT_DISTANCE)
 			{
 				mine.new_position();
-				if (mine.is_avoid()) sweeper.get_fitness() *= 0.5;
-				else sweeper.get_fitness() += 1.0;
+				if (mine.is_avoid()) sweeper.get_fitness() *= PUNISHMENT;
+				else sweeper.get_fitness() += REWARD;
 			}
 			else if (distance < min_distance)
 			{
 				min_distance = distance;
 				closest_mine = mine;
-			}	
+			}
 		}
 
 		//Control sweeper has a separate fitness to the brain
 		if (sweeper.get_brain().get_fitness() > max_fitness)
 		{
 			max_fitness = sweeper.get_brain().get_fitness();
-			for (auto reference : sweepers) 
+			for (auto reference : sweepers)
 			{
 				Sweeper& sweeper2 = reference.get();
 				sweeper2.set_best(false);
@@ -109,10 +107,11 @@ void Logic::update()
 		sweeper.update(closest_mine);
 
 		sweeper_p = sweeper.get();
-		if (sweeper_p.x > SCREEN_WIDTH) sweeper_p.x = -10;
-		else if (sweeper_p.x < -10) sweeper_p.x = SCREEN_WIDTH;
-		if (sweeper_p.y > SCREEN_HEIGHT) sweeper_p.y = -10;
-		else if (sweeper_p.y < -10) sweeper_p.y = SCREEN_HEIGHT;
+		SDL_Rect r = sweeper.get_rect();
+		if (sweeper_p.x > SCREEN_WIDTH+r.w/2) sweeper_p.x = -r.w/2;
+		else if (sweeper_p.x < -r.w/2) sweeper_p.x = SCREEN_WIDTH+r.w/2;
+		if (sweeper_p.y > SCREEN_HEIGHT+r.h/2) sweeper_p.y = -r.h/2;
+		else if (sweeper_p.y < -r.h/2) sweeper_p.y = SCREEN_HEIGHT+r.h/2;
 		//sweeper.set(sweeper_p);
 	}
 
@@ -121,15 +120,15 @@ void Logic::update()
 		ticks = 0;
 		max_fitness = 0;
 		vector<Brain> population = vector<Brain>();
-		for (auto reference : sweepers) 
+		for (auto reference : sweepers)
 		{
-			Sweeper& sweeper = reference.get();	
+			Sweeper& sweeper = reference.get();
 			population.push_back(sweeper.get_brain());
 		}
 		population = Controller::epoch(population, control_sweeper);
 
 		//-1 because of Control_Sweeper doesn't deserve a brain
-		for (size_t i = 0; i < sweepers.size() - CONTROL_SWEEPER; i++) 
+		for (size_t i = 0; i < sweepers.size() - CONTROL_SWEEPER; i++)
 		{
 			Sweeper& sweeper = sweepers[i].get();
 			sweeper.set_brain(population[i]);
@@ -145,9 +144,9 @@ void Logic::update()
 void Logic::draw(SDL_Renderer* renderer)
 {
 	for (Mine mine : mines) mine.draw(renderer);
-	for (auto reference : sweepers) 
+	for (auto reference : sweepers)
 	{
-		Sweeper& sweeper = reference.get();	
+		Sweeper& sweeper = reference.get();
 		if (!Main::is_best() || sweeper.is_best()) sweeper.draw(renderer);
 	}
 

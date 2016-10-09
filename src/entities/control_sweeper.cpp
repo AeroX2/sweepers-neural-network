@@ -13,29 +13,31 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 	fitness = 0;
 }
 
-void Control_Sweeper::update(Mine mine) 
+void Control_Sweeper::update(Mine mine)
 {
 	Vector temp = p - mine.get();
-	float mine_rotation = atan2(temp.y, temp.x);
-	float x = mine_rotation - rotation;
+	float a = atan2(temp.y, temp.x);
+	float d = temp.distance();
+	float w = rectangle.w;
 
-	float ltrack = 0;
-	float rtrack = 0;
-	if (fabs(x) < 5)
+	float ltrack, rtrack;
+	float rotation_to = a - rotation;
+	if (rotation_to > 0)
 	{
 		ltrack = 1;
-		rtrack = 1;
+		rtrack = (4*M_PI*d+w*a)/(4*M_PI*d-w*a);
 	}
 	else
 	{
-		ltrack = cos(x);
-		rtrack = sin(x);
+		ltrack = (4*M_PI*d-w*a)/(4*M_PI*d+w*a);
+		rtrack = 1;
 	}
+	cout << ltrack << " " << rtrack << '\n';
 
 	update_tank(ltrack, rtrack);
 }
 
-void Control_Sweeper::draw(SDL_Renderer* renderer) 
+void Control_Sweeper::draw(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, PURPLE, 255);
 	SDL_RenderFillRect(renderer, &rectangle);

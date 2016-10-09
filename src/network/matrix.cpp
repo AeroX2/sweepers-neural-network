@@ -25,7 +25,7 @@ void Matrix::set_by_row(vector<float> other_matrix)
 		{
 			set(x,y,other_matrix.at(y*get_width()+x));
 		}
-	}	
+	}
 }
 
 void Matrix::set_by_col(vector<float> other_matrix)
@@ -36,7 +36,7 @@ void Matrix::set_by_col(vector<float> other_matrix)
 		{
 			set(x,y,other_matrix.at(x*get_height()+y));
 		}
-	}	
+	}
 }
 
 void Matrix::zero_fill()
@@ -47,7 +47,7 @@ void Matrix::zero_fill()
 void Matrix::add_bias()
 {
 	height++;
-	matrix.push_back(vector<float>());	
+	matrix.push_back(vector<float>());
 	matrix[matrix.size()-1].push_back(-1);
 }
 
@@ -61,7 +61,7 @@ Matrix Matrix::add(Matrix other_matrix)
 	{
 		for (int x = 0; x < get_width(); x++)
 		{
-			new_matrix.set(x,y,get(x,y) + other_matrix.get(x,y));	
+			new_matrix.set(x,y,get(x,y) + other_matrix.get(x,y));
 		}
 	}
 	return new_matrix;
@@ -107,9 +107,9 @@ void Matrix::print()
 		{
 			cout << get(x,y) << " ";
 		}
-		cout << "]" << endl;
+		cout << "]" << '\n';
 	}
-	cout << endl;
+	cout << '\n';
 }
 
 int Matrix::get_width()

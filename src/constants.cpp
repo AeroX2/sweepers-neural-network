@@ -11,6 +11,9 @@ int EPOCH_TICK_OVER = 2000;
 int HIT_DISTANCE = 5;
 int TOURNAMENT_SIZE = 4;
 
+float REWARD = 1;
+float PUNISHMENT = 0.5;
+
 float MUTATION_CHANCE = 0.1;
 float COMBINE_CHANCE = 0.7;
 float MAX_PERTURB = 0.3;

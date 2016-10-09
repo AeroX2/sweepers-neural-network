@@ -29,6 +29,7 @@ class Sweeper
 		void new_position();
 
 		Vector& get();
+		SDL_Rect& get_rect();
 		Brain& get_brain();
 		void set_brain(Brain b);
 

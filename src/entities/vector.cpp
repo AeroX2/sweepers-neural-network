@@ -83,6 +83,6 @@ Vector Vector::normalise()
 
 void Vector::print()
 {
-	cout << "X: " << x << endl;
-	cout << "Y: " << y << endl;
+	cout << "X: " << x << '\n';
+	cout << "Y: " << y << '\n';
 }
