@@ -96,9 +96,9 @@ void Logic::update()
 		if (sweeper.get_brain().get_fitness() > max_fitness)
 		{
 			max_fitness = sweeper.get_brain().get_fitness();
-			for (auto reference : sweepers)
+			for (size_t i = 0; i < sweepers.size()-CONTROL_SWEEPER; i++)
 			{
-				Sweeper& sweeper2 = reference.get();
+				Sweeper& sweeper2 = sweepers[i].get();
 				sweeper2.set_best(false);
 			}
 			sweeper.set_best(true);

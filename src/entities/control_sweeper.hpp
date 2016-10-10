@@ -8,7 +8,6 @@ class Control_Sweeper : public Sweeper
 	public:
 		static Control_Sweeper* create(Vector p, Brain brain);
 		void update(Mine mine) override;
-		void draw(SDL_Renderer* renderer) override;
 
 		float& get_fitness() override;
 		void set_fitness(float fitness) override;

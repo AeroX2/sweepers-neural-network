@@ -2,45 +2,44 @@
 
 Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 {
-	this->p = p;
-
-	rectangle.x = p.x;
-	rectangle.y = p.y;
-	rectangle.w = 10;
-	rectangle.h = 10;
-
-	rotation = 0.0;
 	fitness = 0;
+	set_color(PURPLE);
 }
 
 void Control_Sweeper::update(Mine mine)
 {
-	Vector temp = p - mine.get();
-	float a = atan2(temp.y, temp.x);
+	Vector temp = mine.get() - p;
+	float m = atan2(temp.y, temp.x);
 	float d = temp.distance();
-	float w = rectangle.w;
 
-	float ltrack, rtrack;
-	float rotation_to = a - rotation;
-	if (rotation_to > 0)
+	float ltrack;
+	float rtrack;
+	float a = m - rotation;
+	if (d < 80 && a > -0.1 && a < 0.1)
 	{
 		ltrack = 1;
-		rtrack = (4*M_PI*d+w*a)/(4*M_PI*d-w*a);
+		rtrack = 1;
+	}
+	else if (a < 0)
+	{
+		ltrack = 1;
+		rtrack = (2*d+a)/(2*d-a);
 	}
 	else
 	{
-		ltrack = (4*M_PI*d-w*a)/(4*M_PI*d+w*a);
+		ltrack = (2*d-a)/(2*d+a);
 		rtrack = 1;
 	}
+	/*cout << (a > 0) << '\n';
+	cout << d << " " << a << '\n';
 	cout << ltrack << " " << rtrack << '\n';
+	cout << "snakes\n";*/
+	/*p.x += cos(a);
+	p.y += sin(a);
+	rectangle.x = round(p.x);
+	rectangle.y = round(p.y);*/
 
 	update_tank(ltrack, rtrack);
-}
-
-void Control_Sweeper::draw(SDL_Renderer* renderer)
-{
-	SDL_SetRenderDrawColor(renderer, PURPLE, 255);
-	SDL_RenderFillRect(renderer, &rectangle);
 }
 
 float& Control_Sweeper::get_fitness()

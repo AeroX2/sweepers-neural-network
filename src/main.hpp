@@ -7,6 +7,7 @@
 
 #include "constants.hpp"
 #include "config.hpp"
+#include "assets.hpp"
 #include "logic.hpp"
 
 using namespace std;
@@ -16,6 +17,7 @@ class Main
 	public:
 		static Main& get_instance();
 		static void draw_font(string message, int x, int y);
+		static SDL_Renderer* get_renderer();
 		static bool is_best();
 		void run();
 	private:

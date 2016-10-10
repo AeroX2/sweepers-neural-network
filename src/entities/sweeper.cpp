@@ -1,16 +1,9 @@
 #include "sweeper.hpp"
+#include "../main.hpp"
 
-Sweeper::Sweeper(Vector p, Brain brain) : p(p), brain(brain)
+Sweeper::Sweeper(Vector p, Brain brain) : Entity(p, SWEEPER_IMAGE), brain(brain)
 {
-	//this->p = p;
-	//this->brain = brain;
-
-	rectangle.x = p.x;
-	rectangle.y = p.y;
-	rectangle.w = 10;
-	rectangle.h = 10;
-
-	rotation = 0.0;
+	rotation = Utils::random_range_float(0,2*M_PI);
 	best = false;
 }
 
@@ -55,6 +48,8 @@ void Sweeper::update_tank(float ltrack, float rtrack)
 	if (rotation_force < -MAX_SWEEPER_TURN_RATE) rotation_force = -MAX_SWEEPER_TURN_RATE;
 
 	rotation += rotation_force;
+	if (rotation < 0) rotation = 2*M_PI;
+	else if (rotation > 2*M_PI) rotation = 0;
 
 	float speed = (ltrack + rtrack) / 2;
 	//float speed = CONTROL_SWEEPER_SPEED;
@@ -72,32 +67,12 @@ void Sweeper::update_tank(float ltrack, float rtrack)
 	rectangle.y = round(p.y) - rectangle.h / 2;
 }
 
-void Sweeper::draw(SDL_Renderer* renderer)
-{
-	if (is_best()) SDL_SetRenderDrawColor(renderer, RED, 255);
-	else SDL_SetRenderDrawColor(renderer, BLACK, 255);
-
-	//TODO Change drawing code to draw from center outwards
-	//TODO Change drawing code to apply rotation
-	SDL_RenderDrawRect(renderer, &rectangle);
-}
-
 void Sweeper::new_position()
 {
 	int rand_x = Utils::random_range_int(0, SCREEN_WIDTH);
 	int rand_y = Utils::random_range_int(0, SCREEN_HEIGHT);
 	p = Vector(rand_x, rand_y);
 	rotation = Utils::random_range_float(0,2*M_PI);
-}
-
-Vector& Sweeper::get()
-{
-	return p;
-}
-
-SDL_Rect& Sweeper::get_rect()
-{
-	return rectangle;
 }
 
 Brain& Sweeper::get_brain()
@@ -118,6 +93,8 @@ bool Sweeper::is_best()
 void Sweeper::set_best(bool best)
 {
 	this->best = best;
+	if (best) set_color(RED);
+	else set_color(BLACK);
 }
 
 float& Sweeper::get_fitness()

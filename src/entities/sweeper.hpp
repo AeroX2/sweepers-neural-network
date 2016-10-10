@@ -8,28 +8,24 @@
 	#include <stdexcept>
 #endif
 
+#include "../network/brain.hpp"
 #include "../constants.hpp"
+#include "../assets.hpp"
+#include "entity.hpp"
 #include "vector.hpp"
 #include "mine.hpp"
-#include "../network/brain.hpp"
 
-class Vector;
-
-class Sweeper
+class Sweeper : public Entity
 {
 	public:
 		static Sweeper* create(Vector p, Brain brain);
-		virtual ~Sweeper() {};
 
 		virtual void update(Mine mine);
 		Matrix update_brain(Mine mine);
 		void update_tank(float ltrack, float rtrack);
 
-		virtual void draw(SDL_Renderer* renderer);
 		void new_position();
 
-		Vector& get();
-		SDL_Rect& get_rect();
 		Brain& get_brain();
 		void set_brain(Brain b);
 
@@ -40,11 +36,8 @@ class Sweeper
 		virtual void set_fitness(float fitness);
 	protected:
 		Sweeper(Vector p, Brain brain);
-		double rotation;
+
 		bool best;
-		Vector v;
-		Vector p;
-		SDL_Rect rectangle;
 		Brain brain;
 };
 

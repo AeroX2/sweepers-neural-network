@@ -5,22 +5,17 @@
 
 #include "../constants.hpp"
 #include "../utils.hpp"
-#include "vector.hpp"
+#include "entity.hpp"
 
-class Mine
+class Mine : public Entity
 {
 	public:
 		Mine();
-		void draw(SDL_Renderer* renderer);
 		void new_position();
-		Vector& get();
-		SDL_Rect& get_rect();
 
 		bool is_avoid();
 		void set_avoid(bool avoid);
 	private:
-		Vector p;
-		SDL_Rect rectangle;
 		bool avoid;
 };
 

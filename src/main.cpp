@@ -114,9 +114,13 @@ bool Main::init()
 
 void Main::destroy()
 {
-	SDL_DestroyWindow(window);
+	Assets::destroy_textures();
 	TTF_CloseFont(font);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+
 	TTF_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
 
@@ -157,6 +161,11 @@ Main& Main::get_instance()
 void Main::draw_font(string message, int x, int y)
 {
 	get_instance().draw_font_p(message, x, y);
+}
+
+SDL_Renderer* Main::get_renderer()
+{
+	return get_instance().renderer;
 }
 
 bool Main::is_best()

@@ -1,10 +1,16 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <iostream>
+using namespace std;
+
 const static int SCREEN_WIDTH = 640;
 const static int SCREEN_HEIGHT = 480;
 
 const static float FRAMERATE = 1000.0/60.0;
+
+const static string SWEEPER_IMAGE = "sweeper.png";
+const static string MINE_IMAGE = "mine.png";
 
 extern int ROLLING_AVERAGE;
 extern bool TOURNAMENT;

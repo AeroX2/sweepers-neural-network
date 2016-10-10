@@ -1,9 +1,7 @@
 #include "vector.hpp"
 
-Vector::Vector(double x, double y)
+Vector::Vector(double x, double y) : x(x), y(y)
 {
-	this->x = x;
-	this->y = y;
 }
 
 Vector Vector::operator+(const Vector& rhs)

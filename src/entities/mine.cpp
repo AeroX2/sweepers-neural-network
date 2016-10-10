@@ -1,19 +1,9 @@
 #include "mine.hpp"
 
-Mine::Mine()
+Mine::Mine() : Entity(Vector(), MINE_IMAGE)
 {
-	rectangle.w = 5;
-	rectangle.h = 5;
 	avoid = false;
-
 	new_position();
-}
-
-void Mine::draw(SDL_Renderer* renderer)
-{
-	if (avoid) SDL_SetRenderDrawColor(renderer, ORANGE, 255);
-	else SDL_SetRenderDrawColor(renderer, BLACK, 255);
-	SDL_RenderFillRect(renderer, &rectangle);
 }
 
 void Mine::new_position()
@@ -26,16 +16,6 @@ void Mine::new_position()
 	rectangle.y = p.y - rectangle.h / 2;
 }
 
-Vector& Mine::get()
-{
-	return p;
-}
-
-SDL_Rect& Mine::get_rect()
-{
-	return rectangle;
-}
-
 bool Mine::is_avoid()
 {
 	return avoid;
@@ -44,4 +24,6 @@ bool Mine::is_avoid()
 void Mine::set_avoid(bool avoid)
 {
 	this->avoid = avoid;
+	if (avoid) set_color(ORANGE);
+	else set_color(BLACK);
 }

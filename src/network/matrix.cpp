@@ -1,9 +1,7 @@
 #include "matrix.hpp"
 
-Matrix::Matrix(int width, int height)
+Matrix::Matrix(int width, int height) : width(width), height(height)
 {
-	this->width = width;
-	this->height = height;
 	zero_fill();
 }
 
