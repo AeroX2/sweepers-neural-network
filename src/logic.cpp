@@ -137,7 +137,12 @@ void Logic::update()
 			sweeper.new_position();
 		}
 		for (Mine& mine : mines) mine.new_position();
-		if (CONTROL_SWEEPER) control_sweeper->set_fitness(0);
+
+		if (CONTROL_SWEEPER)
+		{
+			control_sweeper->set_fitness(0);
+			control_sweeper->new_position();
+		}
 	}
 }
 

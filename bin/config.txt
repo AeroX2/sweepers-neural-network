@@ -1,7 +1,7 @@
 20   //Rolling_average
 1    //Tournament_selection
 1    //Combine_by_two_points
-0    //Control_sweeper
+1    //Control_sweeper
 20   //Population
 40   //Mine_length
 2000 //Epoch_tick_over

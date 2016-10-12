@@ -9,12 +9,15 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
 void Control_Sweeper::update(Mine mine)
 {
 	Vector temp = mine.get() - p;
-	float m = atan2(temp.y, temp.x);
+	float m = atan2(temp.y, temp.x) + (mine.is_avoid() ? M_PI : 0);
+	float r = rotation - M_PI;
 	float d = temp.distance();
+
+	float a = r - m;
+	a += (a>M_PI) ? -2*M_PI : (a<-M_PI) ? 2*M_PI : 0;
 
 	float ltrack;
 	float rtrack;
-	float a = m - rotation;
 	if (d < 80 && a > -0.1 && a < 0.1)
 	{
 		ltrack = 1;
