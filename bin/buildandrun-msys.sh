@@ -11,9 +11,9 @@ function test {
 }
 
 if [ "$1" == "sixty" ]; then
-	test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Dsixty"ON"
+	test /c/Program\ Files/Cmake/cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Dsixty"ON"
 else
-	test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON"
+	test /c/Program\ Files/Cmake/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON"
 fi
 test /c/MinGW/msys/1.0/bin/make.exe
 test NeuralNetwork.exe
