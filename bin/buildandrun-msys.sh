@@ -10,6 +10,10 @@ function test {
     return $status
 }
 
-test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Ddebug="ON"
+if [ "$1" == "sixty" ]; then
+	test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Dsixty"ON"
+else
+	test ../../cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON"
+fi
 test /c/MinGW/msys/1.0/bin/make.exe
 test NeuralNetwork.exe

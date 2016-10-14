@@ -1,7 +1,6 @@
 #include "main.hpp"
 
-//Windows MSYS
-int main( int argc, char *argv[)
+int main(int argc, char *argv[])
 {
 	Main::get_instance().run();
 	return 0;

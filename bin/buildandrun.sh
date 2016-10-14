@@ -18,7 +18,11 @@ else
 fi
 
 if [ "$1" == "windows" ]; then
-	test x86_64-w64-mingw32-cmake -Dwindows="ON" .
+	if [ "$2" == "sixty" ]; then
+		test x86_64-w64-mingw32-cmake -Dcrosscompile="ON" -Dsixty="ON" .
+	else
+		test i686-w64-mingw32-cmake -Dcrosscompile="ON" .
+	fi
 	test make
 	test wine NeuralNetwork.exe
 else
