@@ -29,10 +29,11 @@ Main::Main()
 void Main::run()
 {
 	if (init()) running = false;
-	if (!running) cout << "Error in initialising window\n";
+	if (!running) cerr << "Error in initialising window\n";
 	logic.init();
 
 	double current_time, last_time, delta;
+	current_time = SDL_GetTicks();
 	while (running)
 	{
 		last_time = current_time;
@@ -46,6 +47,7 @@ void Main::run()
 				if (e.key.keysym.sym == SDLK_f)
 				{
 					cout << "F key pressed\n";
+					Plotter::set_dirty();
 					fast = !fast;
 				}
 				else if (e.key.keysym.sym == SDLK_b)
@@ -101,6 +103,8 @@ bool Main::init()
 	font = TTF_OpenFont("arial.ttf", 12);
 	if (font == NULL) return true;
 
+	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) return true;
+
 	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
 	else cout << "Failed to read from file, using defaults\n";
 
@@ -131,14 +135,14 @@ void Main::draw_font_p(string message, int x, int y)
 	SDL_Surface* text_surface = TTF_RenderText_Blended(font, message.c_str(), color);
 	if (text_surface == NULL)
 	{
-		cout << "Couldn't create text to draw\n";
+		cerr << "Couldn't create text to draw\n";
 		return;
 	}
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 	if (texture == NULL)
 	{
-		 cout << "Unable to create texture from rendered text\n";
+		 cerr << "Unable to create texture from rendered text\n";
 		 return;
 	}
 	int width = 0;
