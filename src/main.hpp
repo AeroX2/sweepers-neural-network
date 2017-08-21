@@ -19,6 +19,7 @@ class Main
 		static void draw_font(string message, int x, int y);
 		static SDL_Renderer* get_renderer();
 		static bool is_best();
+		static bool is_interactive();
 		void run();
 	private:
 		Main();
@@ -35,6 +36,7 @@ class Main
 		bool running;
 		bool fast;
 		bool best;
+		bool interactive;
 };
 
 #endif

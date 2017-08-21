@@ -81,7 +81,9 @@ void Logic::update()
 			//cout << "distance: " << distance << '\n';
 			if (distance < HIT_DISTANCE)
 			{
-				mine.new_position();
+				if (Main::is_interactive()) mine.set_dead(true);
+				else mine.new_position();
+
 				if (mine.is_avoid()) sweeper.get_fitness() *= PUNISHMENT;
 				else sweeper.get_fitness() += REWARD;
 			}
@@ -91,6 +93,8 @@ void Logic::update()
 				closest_mine = mine;
 			}
 		}
+
+		mines.erase(remove_if(mines.begin(), mines.end(), [](auto mine){ return mine.is_dead(); }), mines.end());
 
 		//Control sweeper has a separate fitness to the brain
 		if (sweeper.get_brain().get_fitness() > max_fitness)
@@ -115,7 +119,7 @@ void Logic::update()
 		//sweeper.set(sweeper_p);
 	}
 
-	if (ticks++ > EPOCH_TICK_OVER)
+	if (!Main::is_interactive() && ticks++ > EPOCH_TICK_OVER)
 	{
 		ticks = 0;
 		max_fitness = 0;
@@ -159,6 +163,23 @@ void Logic::draw(SDL_Renderer* renderer)
 	//Main::draw_font("Current worst fitness: " + to_string(worst_sweeper->get_fitness()), 10, 30);
 	//Main::draw_font("Current average fitness: " + to_string(average_sweeper->get_fitness()), 10, 50);
 	if (CONTROL_SWEEPER) Main::draw_font("Control sweeper fitness: " + to_string(control_sweeper->get_fitness()), 10, 30);
+	Main::draw_font("Epoch timer: " + to_string(ticks) + "/" + to_string(EPOCH_TICK_OVER), 10, 50);
+
 	Main::draw_font("Press F to fast forward", 10, 70);
 	Main::draw_font("Press B to see only the best", 10, 90);
+	Main::draw_font("Press I to stop epoch to interact", 10, 110);
+	Main::draw_font("Press C to clear the mines", 10, 130);
 }
+
+void Logic::clear_mines()
+{
+	mines.clear();
+}
+
+void Logic::mouse_down(int x, int y, bool avoid)
+{
+	Mine mine = Mine(x,y);
+	if (avoid) mine.set_avoid(true);
+	mines.push_back(mine);
+}
+

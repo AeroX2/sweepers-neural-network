@@ -15,6 +15,7 @@ Main::Main()
 	running = true;
 	fast = false;
 	best = false;
+	interactive = false;
 }
 
 void Main::run()
@@ -46,7 +47,22 @@ void Main::run()
 					cout << "B key pressed\n";
 					best = !best;
 				}
+				else if (e.key.keysym.sym == SDLK_i)
+				{
+					cout << "I key pressed\n";
+					interactive = !interactive;
+				}
+				else if (e.key.keysym.sym == SDLK_c)
+				{
+					cout << "C key pressed\n";
+					logic.clear_mines();
+				}
 			}
+			if (e.type == SDL_MOUSEBUTTONDOWN && !fast)
+			{
+				logic.mouse_down(e.button.x, e.button.y, e.button.button == SDL_BUTTON_RIGHT);
+			}
+
 		}
 		logic.update();
 
@@ -168,3 +184,8 @@ bool Main::is_best()
 	return get_instance().best;
 }
 
+
+bool Main::is_interactive()
+{
+	return get_instance().interactive;
+}

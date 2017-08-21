@@ -32,6 +32,8 @@ class Logic
 		void init();
 		void update();
 		void draw(SDL_Renderer* renderer);
+		void clear_mines();
+		void mouse_down(int x, int y, bool avoid);
 	private:
 		vector<reference_wrapper<Sweeper>> sweepers;
 		vector<Mine> mines;
