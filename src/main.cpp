@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-int main(int argc, char *argv[])
+int main()
 {
 	Main::get_instance().run();
 	return 0;
@@ -100,19 +100,34 @@ bool Main::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (window == NULL) return true;
+	if (window == NULL) {
+		cout << "Couldn't create SDL window\n";
+		return true;
+	}
 	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
-	if (renderer == NULL) return true;
+	if (renderer == NULL) {
+		cout << "Couldn't initialize render engine\n";
+		return true;
+	}
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-	if (TTF_Init() < 0) return true;
-	font = TTF_OpenFont("arial.ttf", 12);
-	if (font == NULL) return true;
+	if (TTF_Init() < 0) {
+		cout << "Couldn't initialize font engine\n";
+		return true;
+	}
+	font = TTF_OpenFont("data/arial.ttf", 12);
+	if (font == NULL) {
+		cout << "Couldn't read font\n";
+		return true;
+	}
 
-	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) return true;
+	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+		cout << "Couldn't initialize test image\n";
+		return true;
+	}
 
-	if (Config::read_from_file("config.txt")) cout << "Using values from files\n";
+	if (Config::read_from_file("data/config.txt")) cout << "Using values from files\n";
 	else cout << "Failed to read from file, using defaults\n";
 
 	Plotter::init(10);

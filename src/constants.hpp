@@ -9,8 +9,8 @@ const static int SCREEN_HEIGHT = 480;
 
 const static float FRAMERATE = 1000.0/60.0;
 
-const static string SWEEPER_IMAGE = "sweeper.png";
-const static string MINE_IMAGE = "mine.png";
+const static string SWEEPER_IMAGE = "data/sweeper.png";
+const static string MINE_IMAGE = "data/mine.png";
 
 extern int ROLLING_AVERAGE;
 extern bool TOURNAMENT;
