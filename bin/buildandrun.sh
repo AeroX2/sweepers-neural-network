@@ -24,9 +24,9 @@ if [ "$1" == "windows" ]; then
 		test i686-w64-mingw32-cmake -Dcrosscompile="ON" .
 	fi
 	test make
-	test wine NeuralNetwork.exe
+	test wine ./windows/NeuralNetwork.exe
 else
 	test cmake -Ddebug="$debug" .
 	test make
-	test ./neural_network
+	test ./unix/neural_network
 fi
