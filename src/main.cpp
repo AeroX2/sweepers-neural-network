@@ -1,6 +1,7 @@
 #include "main.hpp"
 
-int main()
+//Windows needs argc and argv to compile
+int main(int argc, char* argv[])
 {
 	Main::get_instance().run();
 	return 0;

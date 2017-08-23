@@ -11,7 +11,7 @@ Entity::Entity(Vector p, string path) : p(p)
 
 	rotation = 0.0;
 
-	color = SDL_Color{};
+	color = SDL_Color();
 	set_color(BLACK);
 }
 
