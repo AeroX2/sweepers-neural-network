@@ -14,7 +14,6 @@ function test {
 function print_usage {
 	echo "Usage: $0
 	  -d, --debug     Compile with gcc -g for debug mode
-	  -p, --parallel  Use the OpenMP library, to allow the program to run in parallel
 	  -w, --windows   Cross compile in Linux for Windows  
 	  -s, --sixty     Compile in 64 bit mode only for windows"
 	exit 1;
@@ -24,7 +23,6 @@ for arg in "$@"; do
   shift
   case "$arg" in
     "--debug")    set -- "$@" "-d" ;;
-    "--parallel") set -- "$@" "-p" ;;
     "--windows")  set -- "$@" "-w" ;;
     "--sixty")    set -- "$@" "-s" ;;
     *)            set -- "$@" "$arg"
@@ -33,11 +31,10 @@ done
 
 cmake_flags=". ";
 
-while getopts "dpws" opt
+while getopts "dws" opt
 do
   case "$opt" in
 	"d") cmake_flags+="-Ddebug=ON" ;;
-    "p") cmake_flags+="-Dparallel=ON" ;;
     "w") windows=true ;;
     "s") sixty=true ;;
     "?") print_usage;

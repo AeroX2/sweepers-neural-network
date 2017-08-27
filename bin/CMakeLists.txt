@@ -4,7 +4,6 @@ project (neural_network)
 option(sixty "sixty" OFF)
 option(debug "debug" OFF)
 option(windows "windows" OFF)
-option(parallel "parallel" OFF)
 option(crosscompile "crosscompile" OFF)
 
 if (windows)
@@ -46,23 +45,18 @@ if (crosscompile OR windows)
 	endif()
 endif()
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/../cmake")
+
 if (debug)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/../cmake")
-
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR})
-
-if (parallel)
-	add_definitions(-DUSE_OPENMP)
-	find_package(OpenMP REQUIRED)
-endif()
 
 file(GLOB_RECURSE SOURCES ../src/*.cpp ../src/*.hpp)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
