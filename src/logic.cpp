@@ -5,6 +5,8 @@ Logic::Logic()
 {
 	ticks = 0;
 	max_fitness = 0;
+	control_sweeper = NULL;
+	best_sweeper = NULL;
 }
 
 Logic::~Logic()
@@ -44,7 +46,6 @@ void Logic::init()
 	p = Vector(rand_x, rand_y);
 	new_brain = Brain();
 
-	control_sweeper = NULL;
 	if (CONTROL_SWEEPER)
 	{
 		Control_Sweeper* temp = Control_Sweeper::create(p,new_brain);

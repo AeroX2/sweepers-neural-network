@@ -1,6 +1,6 @@
 #include "control_sweeper.hpp"
 
-Control_Sweeper::Control_Sweeper(Vector p, Brain brain) : Sweeper(p, brain)
+Control_Sweeper::Control_Sweeper(Vector p, Brain& brain) : Sweeper(p, brain)
 {
 	fitness = 0;
 	set_color(PURPLE);
@@ -55,7 +55,7 @@ void Control_Sweeper::set_fitness(float fitness)
 	this->fitness = fitness;
 }
 
-Control_Sweeper* Control_Sweeper::create(Vector p, Brain brain)
+Control_Sweeper* Control_Sweeper::create(Vector p, Brain& brain)
 {
 	return new Control_Sweeper(p, brain);
 }

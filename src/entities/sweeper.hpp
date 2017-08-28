@@ -1,10 +1,10 @@
 #ifndef SWEEPER_H
 #define SWEEPER_H
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 //Windows MSYS
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32)
 	#include <stdexcept>
 #endif
 
@@ -18,7 +18,7 @@
 class Sweeper : public Entity
 {
 	public:
-		static Sweeper* create(Vector p, Brain brain);
+		static Sweeper* create(Vector p, Brain& brain);
 
 		virtual void update(Mine mine);
 		Matrix update_brain(Mine mine);
@@ -27,7 +27,7 @@ class Sweeper : public Entity
 		void new_position();
 
 		Brain& get_brain();
-		void set_brain(Brain b);
+		void set_brain(Brain& b);
 
 		bool is_best();
 		void set_best(bool best);
@@ -35,7 +35,7 @@ class Sweeper : public Entity
 		virtual float& get_fitness();
 		virtual void set_fitness(float fitness);
 	protected:
-		Sweeper(Vector p, Brain brain);
+		Sweeper(Vector p, Brain& brain);
 
 		bool best;
 		Brain brain;

@@ -1,7 +1,7 @@
 #include "sweeper.hpp"
 #include "../main.hpp"
 
-Sweeper::Sweeper(Vector p, Brain brain) : Entity(p, SWEEPER_IMAGE), brain(brain)
+Sweeper::Sweeper(Vector p, Brain& brain) : Entity(p, SWEEPER_IMAGE), brain(brain)
 {
 	rotation = Utils::random_range_float(0,2*M_PI);
 	best = false;
@@ -80,7 +80,7 @@ Brain& Sweeper::get_brain()
 	return brain;
 }
 
-void Sweeper::set_brain(Brain brain)
+void Sweeper::set_brain(Brain& brain)
 {
 	this->brain = brain;
 }
@@ -107,7 +107,7 @@ void Sweeper::set_fitness(float fitness)
 	brain.set_fitness(fitness);
 }
 
-Sweeper* Sweeper::create(Vector p, Brain brain)
+Sweeper* Sweeper::create(Vector p, Brain& brain)
 {
 	return new Sweeper(p, brain);
 }

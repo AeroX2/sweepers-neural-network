@@ -1,7 +1,7 @@
 #ifndef PLOTTER_H
 #define PLOTTER_H
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #include <iostream>
 #include <vector>
 #include <math.h>

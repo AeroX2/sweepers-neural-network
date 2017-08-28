@@ -10,8 +10,8 @@ function test {
     return $status
 }
 
-if [ "$1" == "--sixty" ]; then
-	test /c/Program\ Files/Cmake/cmake-windows/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Dsixty"ON"
+if [ "$1" == "-s" ] || [ "$1" == "--sixty" ]; then
+	test /c/Program\ Files/Cmake/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON" -Dsixty="ON"
 else
 	test /c/Program\ Files/Cmake/bin/cmake.exe -G "MSYS Makefiles" -Dwindows="ON"
 fi

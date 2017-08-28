@@ -4,7 +4,7 @@
 #include <memory>
 
 //Windows MSYS
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32)
 	#include <string>
 	#include <sstream>
 	template<typename T> std::string to_string(const T& n)

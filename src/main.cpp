@@ -25,11 +25,11 @@ void Main::run()
 	if (!running) cerr << "Error in initialising window\n";
 	logic.init();
 
-	double current_time, last_time, delta;
+	double current_time, delta;
 	current_time = SDL_GetTicks();
 	while (running)
 	{
-		last_time = current_time;
+		double last_time = current_time;
 
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0)

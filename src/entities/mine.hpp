@@ -1,7 +1,7 @@
 #ifndef MINE_H
 #define MINE_H
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 #include "../constants.hpp"
 #include "../utils.hpp"
