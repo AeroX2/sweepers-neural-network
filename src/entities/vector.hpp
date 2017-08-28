@@ -22,6 +22,7 @@ class Vector
 		Vector& operator*=(const float rhs);
 
 		float distance();
+		float fake_distance();
 		Vector normalise();
 		void print();
 

@@ -68,19 +68,19 @@ void Logic::update()
 		Mine closest_mine = mines[0];
 		Vector mine_p = closest_mine.get();
 
-		float min_distance = (mine_p - sweeper_p).distance();
+		float min_distance = (mine_p - sweeper_p).fake_distance();
 
 		for (Mine& mine : mines)
 		{
 			mine_p = mine.get();
-			float distance = (mine_p - sweeper_p).distance();
+			float distance = (mine_p - sweeper_p).fake_distance();
 			/*if (mine_p.x - 50 < sweeper_p.x &&
 				mine_p.x + 50 > sweeper_p.x &&
 				mine_p.y - 50 < sweeper_p.y &&
 				mine_p.y + 50 > sweeper_p.y)
 			{*/
 			//cout << "distance: " << distance << '\n';
-			if (distance < HIT_DISTANCE)
+			if (distance < HIT_DISTANCE*HIT_DISTANCE)
 			{
 				if (Main::is_interactive()) mine.set_dead(true);
 				else mine.new_position();
@@ -182,7 +182,7 @@ void Logic::clear_mines()
 void Logic::mouse_down(int x, int y, bool avoid)
 {
 	Mine mine = Mine(x,y);
-	if (avoid) mine.set_avoid(true);
+	mine.set_avoid(avoid);
 	mines.push_back(mine);
 }
 

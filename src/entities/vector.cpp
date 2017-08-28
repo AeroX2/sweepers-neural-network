@@ -63,7 +63,12 @@ Vector& Vector::operator*=(const float rhs)
 
 float Vector::distance()
 {
-	return sqrt(x*x+y*y);
+	return sqrt(x*x + y*y);
+}
+
+float Vector::fake_distance()
+{
+	return x*x + y*y;
 }
 
 Vector Vector::normalise()
