@@ -2,17 +2,17 @@
 
 Matrix::Matrix(int width, int height) : width(width), height(height)
 {
-	zero_fill();
+	matrix = vector<float>(width*height, 0);
 }
 
 void Matrix::set(int x, int y, float value)
 {
-	matrix.at(y).at(x) = value;
+	matrix.at(y*width+x) = value;
 }
 
 float Matrix::get(int x, int y)
 {
-	return matrix.at(y).at(x);
+	return matrix.at(y*width+x);
 }
 
 void Matrix::set_by_row(vector<float> other_matrix)
@@ -39,14 +39,13 @@ void Matrix::set_by_col(vector<float> other_matrix)
 
 void Matrix::zero_fill()
 {
-	matrix = vector< vector<float> >(height, vector<float>(width));
+	matrix.clear();
 }
 
 void Matrix::add_bias()
 {
 	height++;
-	matrix.push_back(vector<float>());
-	matrix[matrix.size()-1].push_back(-1);
+	matrix.push_back(-1);
 }
 
 Matrix Matrix::add(Matrix other_matrix)
@@ -125,7 +124,7 @@ int Matrix::size()
 	return get_width() * get_height();
 }
 
-vector<vector<float>> Matrix::get_matrix()
+vector<float> Matrix::get_matrix()
 {
 	return matrix;
 }

@@ -95,7 +95,9 @@ void Logic::update()
 			}
 		}
 
-		mines.erase(remove_if(mines.begin(), mines.end(), [](auto mine){ return mine.is_dead(); }), mines.end());
+		if (Main::is_interactive()) {
+			mines.erase(remove_if(mines.begin(), mines.end(), [](auto mine){ return mine.is_dead(); }), mines.end());
+		}
 
 		//Control sweeper has a separate fitness to the brain
 		if (sweeper.get_brain().get_fitness() > max_fitness)

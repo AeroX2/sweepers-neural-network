@@ -33,10 +33,10 @@ class Matrix
 		int get_width();
 		int get_height();
 		int size();
-		vector<vector<float>> get_matrix();
+		vector<float> get_matrix();
 	private:
 		int width,height;
-		vector<vector<float>> matrix;
+		vector<float> matrix;
 };
 
 #endif

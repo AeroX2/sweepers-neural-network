@@ -18,7 +18,7 @@ SDL_Texture* Assets::get_texture(string path, SDL_Renderer* renderer)
         new_texture = SDL_CreateTextureFromSurface(renderer, loaded_surface);
         if (new_texture == NULL)
         {
-            cerr << "Unable to create texture: " << path << " SDL Error: " << SDL_GetError();
+            cerr << "Unable to create texture: " << path << " SDL Error: " << SDL_GetError() << endl;
 			return NULL;
         }
 
