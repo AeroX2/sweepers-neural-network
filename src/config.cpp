@@ -18,6 +18,8 @@ bool Config::read_from_file(string filename)
 	file >> param_description;
 	file >> MINE_LEN;
 	file >> param_description;
+	file >> AVOID_MINE_LEN;
+	file >> param_description;
 	file >> EPOCH_TICK_OVER;
 	file >> param_description;
 	file >> HIT_DISTANCE;
@@ -47,6 +49,7 @@ bool Config::read_from_file(string filename)
 	cout << "Reward: " << REWARD << '\n';
 	cout << "Punishment: " << PUNISHMENT << '\n';
 	cout << "Mine len: " << MINE_LEN << '\n';
+	cout << "Avoid mine len: " << AVOID_MINE_LEN << '\n';
 	cout << "Epoch tick over: " << EPOCH_TICK_OVER << '\n';
 	cout << "Hit distance: " << HIT_DISTANCE << '\n';
 	cout << "Tournament size: " << TOURNAMENT_SIZE << '\n';

@@ -48,7 +48,8 @@ float Utils::random_clamped()
 float Utils::sigmoid(float num)
 {
 	//return num/(1+fabs(num));
-	return 1/(1+exp(-num));
+	//return 1/(1+exp(-num));
+	return max(0.0f, num);
 }
 
 float Utils::constrain(float num, float min, float max)

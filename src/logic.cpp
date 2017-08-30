@@ -22,7 +22,7 @@ void Logic::init()
 	for (int i = 0; i < MINE_LEN; i++)
 	{
 		Mine new_mine = Mine();
-		if (i < MINE_LEN / 2) new_mine.set_avoid(true);
+		new_mine.set_avoid(i >= AVOID_MINE_LEN);
 		mines.push_back(new_mine);
 	}
 
@@ -115,6 +115,7 @@ void Logic::update()
 
 		sweeper_p = sweeper.get();
 		SDL_Rect r = sweeper.get_rect();
+
 		if (sweeper_p.x > SCREEN_WIDTH+r.w/2) sweeper_p.x = -r.w/2;
 		else if (sweeper_p.x < -r.w/2) sweeper_p.x = SCREEN_WIDTH+r.w/2;
 		if (sweeper_p.y > SCREEN_HEIGHT+r.h/2) sweeper_p.y = -r.h/2;

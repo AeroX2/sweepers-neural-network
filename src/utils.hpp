@@ -4,6 +4,7 @@
 #include <math.h>
 #include <random>
 #include <iostream>
+#include <algorithm>
 
 #if defined(_WIN32)
 	#include <ctime>

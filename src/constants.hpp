@@ -19,6 +19,7 @@ extern bool CONTROL_SWEEPER;
 
 extern int POPULATION;
 extern int MINE_LEN;
+extern int AVOID_MINE_LEN;
 extern int EPOCH_TICK_OVER;
 extern int HIT_DISTANCE;
 extern int TOURNAMENT_SIZE;

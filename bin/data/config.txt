@@ -4,6 +4,7 @@
 1    //Control_sweeper
 20   //Population
 40   //Mine_length
+20   //Avoid_Mine_length
 2000 //Epoch_tick_over
 5    //Hit_Distance
 4    //Tournament_size
