@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#define _USE_MATH_DEFINES
+#include <cmath> 
 #include "SDL.h"
 
 //Windows MSYS

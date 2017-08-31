@@ -1,6 +1,9 @@
 #ifndef CONTROL_SWEEPER_H
 #define CONTROL_SWEEPER_H
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "sweeper.hpp"
 
 class Control_Sweeper : public Sweeper

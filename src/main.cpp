@@ -14,7 +14,7 @@ Main::Main()
 	font = NULL;
 
 	running = true;
-	fast = false;
+	fast = true;
 	best = false;
 	interactive = false;
 }
@@ -30,6 +30,8 @@ void Main::run()
 	while (running)
 	{
 		double last_time = current_time;
+
+		//if (Controller::generation >= 300) break;
 
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0)

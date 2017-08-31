@@ -2,7 +2,7 @@
 #define BRAIN_H
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 
 //Windows MSYS
 #if defined(_WIN32)

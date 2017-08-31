@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <math.h>
+#include <cmath>
 #include <random>
 #include <iostream>
 #include <algorithm>

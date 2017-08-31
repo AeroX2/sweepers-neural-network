@@ -1,6 +1,8 @@
 #ifndef SWEEPER_H
 #define SWEEPER_H
 
+#define _USE_MATH_DEFINES
+#include <cmath> 
 #include "SDL.h"
 
 //Windows MSYS
