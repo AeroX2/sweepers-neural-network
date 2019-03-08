@@ -28,3 +28,6 @@ $ cd bin
 $ cmake .  
 $ make  
 ```
+
+#Demo
+![Demo of sweepers](demo.gif)
