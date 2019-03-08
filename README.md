@@ -29,5 +29,5 @@ $ cmake .
 $ make  
 ```
 
-#Demo
+# Demo
 ![Demo of sweepers](demo.gif)
