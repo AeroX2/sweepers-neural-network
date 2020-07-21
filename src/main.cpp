@@ -1,10 +1,39 @@
 #include "main.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
+Main mainLoop = Main::get_instance();
+#ifdef __EMSCRIPTEN__
+void loop() {
+	mainLoop.run();
+}
+#endif
+
 //Windows needs argc and argv to compile
 int main(int argc, char* argv[])
 {
-	Main::get_instance().run();
+	mainLoop.init();
+
+#ifdef __EMSCRIPTEN__
+	emscripten_set_main_loop(loop, 0, true);
+#else
+	double last_time = 0.0;
+	while (mainLoop.running) {
+		mainLoop.run();
+
+		double current_time = SDL_GetTicks();
+		double delta = (current_time - last_time);
+		last_time = current_time;
+
+		if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
+	}
+	destroy();
+
 	return 0;
+#endif
 }
 
 Main::Main()
@@ -21,97 +50,80 @@ Main::Main()
 
 void Main::run()
 {
-	if (init()) running = false;
-	if (!running) cerr << "Error in initialising window\n";
-	logic.init();
-
-	double current_time, delta;
-	current_time = SDL_GetTicks();
-	while (running)
+	SDL_Event e;
+	while (SDL_PollEvent(&e) != 0)
 	{
-		double last_time = current_time;
-
-		//if (Controller::generation >= 300) break;
-
-		SDL_Event e;
-		while (SDL_PollEvent(&e) != 0)
+		if (e.type == SDL_QUIT) running = false;
+		if (e.type == SDL_KEYDOWN)
 		{
-			if (e.type == SDL_QUIT) running = false;
-			if (e.type == SDL_KEYDOWN)
+			if (e.key.keysym.sym == SDLK_f)
 			{
-				if (e.key.keysym.sym == SDLK_f)
-				{
-					cout << "F key pressed\n";
-					Plotter::set_dirty();
-					fast = !fast;
-				}
-				else if (e.key.keysym.sym == SDLK_b)
-				{
-					cout << "B key pressed\n";
-					best = !best;
-				}
-				else if (e.key.keysym.sym == SDLK_i)
-				{
-					cout << "I key pressed\n";
-					interactive = !interactive;
-				}
-				else if (e.key.keysym.sym == SDLK_c)
-				{
-					cout << "C key pressed\n";
-					logic.clear_mines();
-				}
+				cout << "F key pressed\n";
+				Plotter::set_dirty();
+				fast = !fast;
 			}
-			if (e.type == SDL_MOUSEBUTTONDOWN && !fast)
+			else if (e.key.keysym.sym == SDLK_b)
 			{
-				logic.mouse_down(e.button.x, e.button.y, e.button.button == SDL_BUTTON_RIGHT);
+				cout << "B key pressed\n";
+				best = !best;
 			}
-
-		}
-		logic.update();
-
-		if (fast)
-		{
-			if (Plotter::is_dirty())
+			else if (e.key.keysym.sym == SDLK_i)
 			{
-				SDL_SetRenderDrawColor(renderer,WHITE,0);
-				SDL_RenderClear(renderer);
-
-				Plotter::draw(renderer);
-
-				SDL_RenderPresent(renderer);
+				cout << "I key pressed\n";
+				interactive = !interactive;
+			}
+			else if (e.key.keysym.sym == SDLK_c)
+			{
+				cout << "C key pressed\n";
+				logic.clear_mines();
 			}
 		}
-		else
+		if (e.type == SDL_MOUSEBUTTONDOWN && !fast)
+		{
+			logic.mouse_down(e.button.x, e.button.y, e.button.button == SDL_BUTTON_RIGHT);
+		}
+
+	}
+	logic.update();
+
+	if (fast)
+	{
+		if (Plotter::is_dirty())
 		{
 			SDL_SetRenderDrawColor(renderer,WHITE,0);
 			SDL_RenderClear(renderer);
 
-			logic.draw(renderer);
+			Plotter::draw(renderer);
 
 			SDL_RenderPresent(renderer);
-
-			current_time = SDL_GetTicks();
-			delta = (current_time - last_time);
-			if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
 		}
 	}
+	else
+	{
+		SDL_SetRenderDrawColor(renderer,WHITE,0);
+		SDL_RenderClear(renderer);
 
-	destroy();
+		logic.draw(renderer);
+
+		SDL_RenderPresent(renderer);
+	}
 }
 
 bool Main::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
-	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (window == NULL) {
-		cout << "Couldn't create SDL window\n";
-		return true;
-	}
-	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
-	if (renderer == NULL) {
-		cout << "Couldn't initialize render engine\n";
-		return true;
-	}
+	//window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	//if (window == NULL) {
+	//	cout << "Couldn't create SDL window\n";
+	//	return true;
+	//}
+	//renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
+	//if (renderer == NULL) {
+	//	cout << "Couldn't initialize render engine\n";
+	//	return true;
+	//}
+	//
+	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer);
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
@@ -137,6 +149,8 @@ bool Main::init()
 	Plotter::new_line(BLACK);
 	Plotter::new_line(RED);
 	if (CONTROL_SWEEPER) Plotter::new_line(PURPLE);
+
+	logic.init();
 
 	return false;
 }

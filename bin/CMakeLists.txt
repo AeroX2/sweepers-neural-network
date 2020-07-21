@@ -20,11 +20,21 @@ elseif (crosscompile)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/windows)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 	set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "-static-libgcc -static-libstdc++ -static")
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+	message("Compiling for web")
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/web)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_SDL=2 -s USE_SDL_TTF=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"png\"]' -s ALLOW_MEMORY_GROWTH=1")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file data --use-preload-plugins")
+	set(CMAKE_EXECUTABLE_SUFFIX .html)
 else()
 	message("Building for Linux")
 	set(CMAKE_CXX_COMPILER clang++)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/unix)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
+
+	find_package(SDL2 REQUIRED)
+	find_package(SDL2_ttf REQUIRED)
+	find_package(SDL2_image REQUIRED)
 endif()
 
 if (crosscompile OR windows)
@@ -51,10 +61,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DI
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/../cmake")
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_ttf REQUIRED)
-find_package(SDL2_image REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR} 
+include_directories(${SDL2_INCLUDE_DIRS} 
 					${SDL2_TTF_INCLUDE_DIR}
 					${SDL2_IMAGE_INCLUDE_DIR})
 					

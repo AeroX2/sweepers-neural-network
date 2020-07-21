@@ -20,11 +20,13 @@ class Main
 		static SDL_Renderer* get_renderer();
 		static bool is_best();
 		static bool is_interactive();
+
+		bool running;
+		bool init();
 		void run();
 	private:
 		Main();
 
-		bool init();
 		void destroy();
 		void draw_font_p(string message, int x, int y);
 
@@ -33,7 +35,6 @@ class Main
 		TTF_Font* font;
 		Logic logic;
 
-		bool running;
 		bool fast;
 		bool best;
 		bool interactive;
