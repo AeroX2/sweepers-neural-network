@@ -8,5 +8,10 @@ cmake_install.cmake
 *.dll
 *.exe
 *.zip
+*.js
+*.html
+*.wasm
 unix/data/
 windows/data/
+web/data/
+web/*

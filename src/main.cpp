@@ -1,11 +1,12 @@
 #include "main.hpp"
+#include <chrono>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
 
-Main mainLoop = Main::get_instance();
+Main& mainLoop = Main::get_instance();
 #ifdef __EMSCRIPTEN__
 void loop() {
 	mainLoop.run();
@@ -18,17 +19,32 @@ int main(int argc, char* argv[])
 	mainLoop.init();
 
 #ifdef __EMSCRIPTEN__
-	emscripten_set_main_loop(loop, 0, true);
+	// emscripten_set_main_loop(loop, 100000, true);
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	mainLoop.run();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+	cout << "Timing delay: " << diff.count() << endl;
 #else
 	double last_time = 0.0;
 	while (mainLoop.running) {
+		auto start = std::chrono::high_resolution_clock::now();
 		mainLoop.run();
 
-		double current_time = SDL_GetTicks();
-		double delta = (current_time - last_time);
-		last_time = current_time;
+		if (!fast) {
+			double current_time = SDL_GetTicks();
+			double delta = (current_time - last_time);
+			last_time = current_time;
 
-		if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
+			if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
+		} else {
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> diff = end - start;
+			cout << "Timing delay: " << diff.count() << endl;
+		}
 	}
 	destroy();
 
@@ -112,18 +128,17 @@ void Main::run()
 bool Main::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
-	//window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	//if (window == NULL) {
-	//	cout << "Couldn't create SDL window\n";
-	//	return true;
-	//}
-	//renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
-	//if (renderer == NULL) {
-	//	cout << "Couldn't initialize render engine\n";
-	//	return true;
-	//}
-	//
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer);
+	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	if (window == NULL) {
+		cout << "Couldn't create SDL window\n";
+		return true;
+	}
+	renderer = SDL_CreateRenderer(window,0,SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL) {
+		cout << "Couldn't initialize render engine\n";
+		return true;
+	}
+	
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
