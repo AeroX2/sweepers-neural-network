@@ -21,13 +21,14 @@ class Main
 		static bool is_best();
 		static bool is_interactive();
 
+		bool fast;
 		bool running;
 		bool init();
 		void run();
+		void destroy();
 	private:
 		Main();
 
-		void destroy();
 		void draw_font_p(string message, int x, int y);
 
 		SDL_Window* window;
@@ -35,7 +36,6 @@ class Main
 		TTF_Font* font;
 		Logic logic;
 
-		bool fast;
 		bool best;
 		bool interactive;
 };

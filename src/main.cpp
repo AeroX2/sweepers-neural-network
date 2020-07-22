@@ -19,22 +19,16 @@ int main(int argc, char* argv[])
 	mainLoop.init();
 
 #ifdef __EMSCRIPTEN__
-	// emscripten_set_main_loop(loop, 100000, true);
-
-	auto start = std::chrono::high_resolution_clock::now();
-
-	mainLoop.run();
-
-	auto end = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> diff = end - start;
-	cout << "Timing delay: " << diff.count() << endl;
+	while (mainLoop.running) {
+		mainLoop.run();
+	}
 #else
 	double last_time = 0.0;
 	while (mainLoop.running) {
 		auto start = std::chrono::high_resolution_clock::now();
 		mainLoop.run();
 
-		if (!fast) {
+		if (!mainLoop.fast) {
 			double current_time = SDL_GetTicks();
 			double delta = (current_time - last_time);
 			last_time = current_time;
@@ -46,7 +40,7 @@ int main(int argc, char* argv[])
 			cout << "Timing delay: " << diff.count() << endl;
 		}
 	}
-	destroy();
+	mainLoop.destroy();
 
 	return 0;
 #endif
