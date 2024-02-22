@@ -1,9 +1,29 @@
 #include "main.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten.h"
+
+void run()
+{
+	Main::get_instance().run();
+}
+#endif
+
 //Windows needs argc and argv to compile
 int main(int argc, char* argv[])
 {
-	Main::get_instance().run();
+	if (Main::get_instance().init())
+	{
+	    cerr << "Error in initialising window\n";
+	}
+	else
+	{
+#ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(run, 0, 1);
+#else
+        Main::get_instance().run();
+#endif
+	}
 	return 0;
 }
 
@@ -14,21 +34,20 @@ Main::Main()
 	font = NULL;
 
 	running = true;
-	fast = true;
+	fast = false;
 	best = false;
 	interactive = false;
 }
 
 void Main::run()
 {
-	if (init()) running = false;
-	if (!running) cerr << "Error in initialising window\n";
-	logic.init();
-
 	double current_time, delta;
 	current_time = SDL_GetTicks();
+
+#ifndef __EMSCRIPTEN__
 	while (running)
 	{
+#endif
 		double last_time = current_time;
 
 		//if (Controller::generation >= 300) break;
@@ -67,7 +86,11 @@ void Main::run()
 			}
 
 		}
-		logic.update();
+
+        #ifdef __EMSCRIPTEN__
+		    for (int i = 0; i < (fast ? 500 : 1); i++)
+        #endif
+		    logic.update();
 
 		if (fast)
 		{
@@ -90,13 +113,26 @@ void Main::run()
 
 			SDL_RenderPresent(renderer);
 
+            #ifndef __EMSCRIPTEN__
 			current_time = SDL_GetTicks();
 			delta = (current_time - last_time);
 			if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
+			#endif
 		}
-	}
 
+#ifndef __EMSCRIPTEN__
+	}
+#endif
+
+#ifdef __EMSCRIPTEN__
+	if (!running)
+	{
+        emscripten_cancel_main_loop();
+		destroy();
+	}
+#else
 	destroy();
+#endif
 }
 
 bool Main::init()
@@ -137,6 +173,8 @@ bool Main::init()
 	Plotter::new_line(BLACK);
 	Plotter::new_line(RED);
 	if (CONTROL_SWEEPER) Plotter::new_line(PURPLE);
+
+	logic.init();
 
 	return false;
 }

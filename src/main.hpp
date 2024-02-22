@@ -20,11 +20,11 @@ class Main
 		static SDL_Renderer* get_renderer();
 		static bool is_best();
 		static bool is_interactive();
+		bool init();
 		void run();
 	private:
 		Main();
 
-		bool init();
 		void destroy();
 		void draw_font_p(string message, int x, int y);
 
