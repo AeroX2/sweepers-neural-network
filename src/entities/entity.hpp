@@ -23,6 +23,7 @@ class Entity
 		virtual void draw(SDL_Renderer* renderer);
 
 		Vector& get();
+		Vector& get_vel();
 		SDL_Rect& get_rect();
 
 		void set_color(int r, int g, int b);

@@ -7,31 +7,42 @@ Sweeper::Sweeper(Vector p, Brain& brain) : Entity(p, SWEEPER_IMAGE), brain(brain
 	best = false;
 }
 
-void Sweeper::update(Mine mine)
+void Sweeper::update(Mine mine, Mine avoid_mine)
 {
-	Matrix output = update_brain(mine);
+	Matrix output = update_brain(mine, avoid_mine);
 	float ltrack = output.get(0,0);
 	float rtrack = output.get(0,1);
 	update_tank(ltrack, rtrack);
 }
 
-Matrix Sweeper::update_brain(Mine mine)
+Matrix Sweeper::update_brain(Mine mine, Mine avoid_mine)
 {
 	Vector normalised_mine = mine.get();
+//	normalised_mine.x = (normalised_mine.x) / (SCREEN_WIDTH);
+//	normalised_mine.y = (normalised_mine.y) / (SCREEN_HEIGHT);
+
+	Vector normalised_avoid_mine = avoid_mine.get();
+//	normalised_avoid_mine.x = (normalised_avoid_mine.x) / (SCREEN_WIDTH);
+//	normalised_avoid_mine.y = (normalised_avoid_mine.y) / (SCREEN_HEIGHT);
+
+	Vector normalised_p = p;
+//	normalised_p.x = (normalised_p.x) / (SCREEN_WIDTH);
+//	normalised_p.y = (normalised_p.y) / (SCREEN_HEIGHT);
 
 	Vector normalised_minus = (p - mine.get()).normalise();
+	Vector normalised_minus_2 = (p - avoid_mine.get()).normalise();
+
+	// Should already be between 0 and 1
 	Vector normalised_velocity = v;
 
-	normalised_mine.x = (normalised_mine.x) / (SCREEN_WIDTH);
-	normalised_mine.y = (normalised_mine.y) / (SCREEN_HEIGHT);
-
-	Matrix matrix = Matrix(1,6);
+	Matrix matrix = Matrix(1,7);
 	matrix.set(0,0,normalised_minus.x);
 	matrix.set(0,1,normalised_minus.y);
-	matrix.set(0,2,normalised_velocity.x);
-	matrix.set(0,3,normalised_velocity.y);
-	matrix.set(0,4,mine.is_avoid());
-	matrix.set(0,5,-1.0); //faster than add_bias (probably)
+	matrix.set(0,2,normalised_minus_2.x);
+	matrix.set(0,3,normalised_minus_2.y);
+	matrix.set(0,4,normalised_velocity.x);
+	matrix.set(0,5,normalised_velocity.y);
+	matrix.set(0,6,-1.0); //faster than add_bias (probably)
 	Matrix output = brain.update(matrix);
 
 	if (output.size() != BRAIN_OUTPUT_LEN+1) throw runtime_error("Output of matrix does not match expected");

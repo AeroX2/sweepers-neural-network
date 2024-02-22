@@ -22,8 +22,8 @@ class Sweeper : public Entity
 	public:
 		static Sweeper* create(Vector p, Brain& brain);
 
-		virtual void update(Mine mine);
-		Matrix update_brain(Mine mine);
+		virtual void update(Mine mine, Mine avoid_mine);
+		Matrix update_brain(Mine mine, Mine avoid_mine);
 		void update_tank(float ltrack, float rtrack);
 
 		void new_position();

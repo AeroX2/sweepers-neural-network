@@ -2,6 +2,7 @@
 
 #ifdef __EMSCRIPTEN__
 #include "emscripten.h"
+#include "emscripten/html5.h"
 
 void run()
 {
@@ -87,9 +88,9 @@ void Main::run()
 
 		}
 
-        #ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
 		    for (int i = 0; i < (fast ? 500 : 1); i++)
-        #endif
+#endif
 		    logic.update();
 
 		if (fast)
@@ -113,11 +114,11 @@ void Main::run()
 
 			SDL_RenderPresent(renderer);
 
-            #ifndef __EMSCRIPTEN__
+#ifndef __EMSCRIPTEN__
 			current_time = SDL_GetTicks();
 			delta = (current_time - last_time);
 			if (delta < FRAMERATE) SDL_Delay(FRAMERATE - delta);
-			#endif
+#endif
 		}
 
 #ifndef __EMSCRIPTEN__
@@ -138,7 +139,13 @@ void Main::run()
 bool Main::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return true;
+#ifdef __EMSCRIPTEN__
+    double canvasWidth, canvasHeight;
+    emscripten_get_element_css_size("#canvas", &canvasWidth, &canvasHeight);
+	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, canvasWidth, canvasHeight, SDL_WINDOW_SHOWN);
+#else
 	window = SDL_CreateWindow("Neural Network Sweepers", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+#endif
 	if (window == NULL) {
 		cout << "Couldn't create SDL window\n";
 		return true;
@@ -148,6 +155,7 @@ bool Main::init()
 		cout << "Couldn't initialize render engine\n";
 		return true;
 	}
+	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 

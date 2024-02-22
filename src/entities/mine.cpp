@@ -19,8 +19,10 @@ Mine::Mine(int x, int y) : Entity(Vector(), MINE_IMAGE)
 
 void Mine::new_position()
 {
-	int rand_x = Utils::random_range_int(0, SCREEN_WIDTH);
-	int rand_y = Utils::random_range_int(0, SCREEN_HEIGHT);
+    // Offset a little to prevent mines being placed at the edge of the screen
+    // where they are unreachable.
+	int rand_x = Utils::random_range_int(20, SCREEN_WIDTH-20);
+	int rand_y = Utils::random_range_int(20, SCREEN_HEIGHT-20);
 	p = Vector(rand_x, rand_y);
 
 	rectangle.x = p.x - rectangle.w / 2;

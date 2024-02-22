@@ -33,7 +33,7 @@ extern float MAX_PERTURB;
 
 extern float MAX_SWEEPER_TURN_RATE;
 
-const static int BRAIN_INPUT_LEN = 5;
+const static int BRAIN_INPUT_LEN = 6;
 const static int BRAIN_OUTPUT_LEN = 2;
 extern int BRAIN_HIDDEN_LEN;
 const static int BRAIN_HIDDEN_LAYER_LEN = 1;

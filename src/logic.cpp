@@ -65,10 +65,14 @@ void Logic::update()
 		Sweeper& sweeper = reference.get();
 		Vector& sweeper_p = sweeper.get();
 
-		Mine closest_mine = mines[0];
+		Mine closest_mine = *find_if(mines.begin(), mines.end(), [](Mine& m) { return !m.is_avoid(); } );
+		Mine closest_avoid_mine = *find_if(mines.begin(), mines.end(), [](Mine& m) { return m.is_avoid(); } );
+
 		Vector mine_p = closest_mine.get();
+		Vector mine_avoid_p = closest_avoid_mine.get();
 
 		float min_distance = (mine_p - sweeper_p).fake_distance();
+		float min_avoid_distance = (mine_avoid_p - sweeper_p).fake_distance();
 
 		for (Mine& mine : mines)
 		{
@@ -83,15 +87,41 @@ void Logic::update()
 			if (distance < HIT_DISTANCE*HIT_DISTANCE)
 			{
 				if (Main::is_interactive()) mine.set_dead(true);
-				else mine.new_position();
+				else
+				{
+				    while (true) {
+                        mine.new_position();
+                        mine_p = mine.get();
+
+                        bool tooClose = false;
+                        for (auto reference : sweepers)
+                        {
+                            Sweeper& sweeper = reference.get();
+                            Vector& sweeper_p = sweeper.get();
+                            float distance = (mine_p - sweeper_p).fake_distance();
+                            if (distance < HIT_DISTANCE*HIT_DISTANCE*2) {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                        if (!tooClose) break;
+				    }
+				}
 
 				if (mine.is_avoid()) sweeper.get_fitness() *= PUNISHMENT;
 				else sweeper.get_fitness() += REWARD;
 			}
-			else if (distance < min_distance)
+			else if (distance < min_distance && !mine.is_avoid())
 			{
 				min_distance = distance;
 				closest_mine = mine;
+			}
+
+			distance = (mine_avoid_p - sweeper_p).fake_distance();
+			if (distance < min_avoid_distance && mine.is_avoid())
+			{
+				min_avoid_distance = distance;
+				closest_avoid_mine = mine;
 			}
 		}
 
@@ -111,16 +141,36 @@ void Logic::update()
 			sweeper.set_best(true);
 			best_sweeper = &sweeper;
 		}
-		sweeper.update(closest_mine);
+		sweeper.update(closest_mine, closest_avoid_mine);
 
 		sweeper_p = sweeper.get();
+		Vector& sweeper_v = sweeper.get_vel();
 		SDL_Rect r = sweeper.get_rect();
 
-		if (sweeper_p.x > SCREEN_WIDTH+r.w/2) sweeper_p.x = -r.w/2;
-		else if (sweeper_p.x < -r.w/2) sweeper_p.x = SCREEN_WIDTH+r.w/2;
-		if (sweeper_p.y > SCREEN_HEIGHT+r.h/2) sweeper_p.y = -r.h/2;
-		else if (sweeper_p.y < -r.h/2) sweeper_p.y = SCREEN_HEIGHT+r.h/2;
-		//sweeper.set(sweeper_p);
+		if (sweeper_p.x > SCREEN_WIDTH-r.w/2)
+		{
+            sweeper_p.x = SCREEN_WIDTH-r.w/2;
+            sweeper_v.x = 0;
+            sweeper_v.y = 0;
+		}
+		else if (sweeper_p.x < r.w/2)
+		{
+            sweeper_p.x = r.w/2;
+            sweeper_v.x = 0;
+            sweeper_v.y = 0;
+		}
+		if (sweeper_p.y > SCREEN_HEIGHT-r.h/2)
+		{
+            sweeper_p.y = SCREEN_HEIGHT-r.h/2;
+            sweeper_v.x = 0;
+            sweeper_v.y = 0;
+		}
+		else if (sweeper_p.y < r.h/2)
+		{
+            sweeper_p.y = r.h/2;
+            sweeper_v.x = 0;
+            sweeper_v.y = 0;
+		}
 	}
 
 	if (!Main::is_interactive() && ticks++ > EPOCH_TICK_OVER)

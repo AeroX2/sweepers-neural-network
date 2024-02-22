@@ -6,7 +6,7 @@ Control_Sweeper::Control_Sweeper(Vector p, Brain& brain) : Sweeper(p, brain)
 	set_color(PURPLE);
 }
 
-void Control_Sweeper::update(Mine mine)
+void Control_Sweeper::update(Mine mine, Mine avoid_mine)
 {
 	Vector temp = mine.get() - p;
 	float m = atan2(temp.y, temp.x) + (mine.is_avoid() ? M_PI : 0);

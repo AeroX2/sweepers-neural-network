@@ -26,6 +26,11 @@ Vector& Entity::get()
 	return p;
 }
 
+Vector& Entity::get_vel()
+{
+	return v;
+}
+
 SDL_Rect& Entity::get_rect()
 {
 	return rectangle;

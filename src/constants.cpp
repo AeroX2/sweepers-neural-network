@@ -9,7 +9,7 @@ int POPULATION = 20;
 int MINE_LEN = 40;
 int AVOID_MINE_LEN = 20;
 int EPOCH_TICK_OVER = 2000;
-int HIT_DISTANCE = 5;
+int HIT_DISTANCE = 7;
 int TOURNAMENT_SIZE = 4;
 
 float REWARD = 1;
